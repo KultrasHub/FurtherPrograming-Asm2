@@ -15,7 +15,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 public class AppConfig {
-    //ENtity creation
+    //Entity creation
     @Bean
     public Booking booking()
     {
@@ -51,8 +51,8 @@ public class AppConfig {
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
     //Update this to postgreSQL
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver ");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/codeJava");
+        dataSource.setDriverClassName("org.postgresql.Driver ");
+        dataSource.setUrl("jdbc:postgresql://localhost:3306/codeJava");
         dataSource.setUsername("root");
         dataSource.setPassword("");
 
