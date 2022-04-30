@@ -1,4 +1,4 @@
-package Backend.Project.TaxiCompany.Entity;
+package com.example.taxicompany.model;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -16,6 +16,14 @@ public class Driver {
 
     public Driver(ZonedDateTime createdDate, String name) {
         this.createdDate = createdDate;
+        this.name = name;
+    }
+
+    public Driver() {
+
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 

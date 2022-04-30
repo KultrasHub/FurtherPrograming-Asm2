@@ -1,4 +1,4 @@
-package Backend.Project.TaxiCompany.Entity;
+package com.example.taxicompany.model;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -17,6 +17,10 @@ public class Car {
     public Car(ZonedDateTime createdDate, String licensePlate) {
         this.createdDate = createdDate;
         this.licensePlate = licensePlate;
+    }
+
+    public Car() {
+
     }
 
     //getter

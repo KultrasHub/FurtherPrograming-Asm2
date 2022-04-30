@@ -1,4 +1,4 @@
-package Backend.Project.TaxiCompany;
+package com.example.taxicompany;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

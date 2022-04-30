@@ -1,8 +1,9 @@
-package Backend.Project.TaxiCompany.Config;
+package com.example.taxicompany.config;
 
-import Backend.Project.TaxiCompany.Entity.*;
+import com.example.taxicompany.model.*;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -14,6 +15,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan
 public class AppConfig {
     //ENtity creation
     @Bean
@@ -22,45 +24,44 @@ public class AppConfig {
         return new Booking(ZonedDateTime.now());
     }
     @Bean
-    public Car car(String licensePlate)
+    public Car car()
     {
-        return new Car(ZonedDateTime.now(),licensePlate);
+        return new Car();
     }
     @Bean
-    public Customer customer(String name)
+    public Customer customer()
     {
-        return new Customer(ZonedDateTime.now(),name);
+        return new Customer();
     }
     @Bean
-    public Driver driver(String driverName)
+    public Driver driver()
     {
-        return  new Driver(ZonedDateTime.now(),driverName);
+        return new Driver();
     }
     @Bean
     public Invoice invoice()
     {
-        return  new Invoice(ZonedDateTime.now());
+        return new Invoice();
     }
     //
     @Bean
     public LocalSessionFactoryBean sessionFactory(){
         Properties properties = new Properties();
-        properties.put("hibernate.dialect",
-                "org.hibernate.dialect.PostgreSQLDialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.put("hibernate.show_sql", true);
-        properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.hbm2ddl.auto", "update");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    //Update this to postgreSQL
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver ");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/codeJava");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
+        //To use postgresql
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/codejava");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("pass");
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
 
         sessionFactoryBean.setHibernateProperties(properties);
-        sessionFactoryBean.setPackagesToScan("com.Tutorial.Week6.entity");
+        sessionFactoryBean.setPackagesToScan("com.example.taxicompany.model");
         return sessionFactoryBean;
     }
     @Bean

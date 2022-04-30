@@ -1,4 +1,4 @@
-package Backend.Project.TaxiCompany.Entity;
+package com.example.taxicompany.model;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -22,10 +22,15 @@ public class Customer {
         this.createdDate = createdDate;
         this.name = name;
     }
+
+    public Customer() {
+
+    }
+
     //builder
     public Customer setAddress(String address)
     {
-        this.address=address;
+        this.address = address;
         return this;
     }
     public Customer setPhone(String phone)
