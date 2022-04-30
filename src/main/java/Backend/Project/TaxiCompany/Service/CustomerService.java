@@ -7,7 +7,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -56,9 +57,9 @@ public class CustomerService {
 
     //deleteCustomer
     @Transactional
-    public void deleteCustomer(int id) {
+    public void deleteCustomer(long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Customer customer = (Customer) session.load(Customer.class, new Integer(id));
+        Customer customer = (Customer) session.load(Customer.class, new Long(id));
         if (null != customer) {
             session.delete(customer);
         }
