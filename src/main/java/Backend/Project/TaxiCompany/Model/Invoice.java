@@ -1,4 +1,4 @@
-package com.example.taxicompany.model;
+package Backend.Project.TaxiCompany.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

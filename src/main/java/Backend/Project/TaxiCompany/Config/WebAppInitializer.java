@@ -1,4 +1,4 @@
-package com.example.taxicompany.config;
+package Backend.Project.TaxiCompany.Config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

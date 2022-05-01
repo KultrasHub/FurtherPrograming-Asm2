@@ -1,6 +1,6 @@
 package Backend.Project.TaxiCompany.Controller;
 
-import Backend.Project.TaxiCompany.Entity.Customer;
+import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

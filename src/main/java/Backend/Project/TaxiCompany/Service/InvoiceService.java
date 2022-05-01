@@ -1,7 +1,7 @@
-package com.example.taxicompany.service;
+package Backend.Project.TaxiCompany.Service;
 
-import com.example.taxicompany.exception.RecordNotFoundException;
-import com.example.taxicompany.model.Invoice;
+import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
+import Backend.Project.TaxiCompany.Model.Invoice;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional

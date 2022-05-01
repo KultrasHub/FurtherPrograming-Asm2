@@ -1,4 +1,4 @@
-package com.example.taxicompany.model;
+package Backend.Project.TaxiCompany.Model;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;

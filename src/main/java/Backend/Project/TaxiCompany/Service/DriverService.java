@@ -1,7 +1,7 @@
-package com.example.taxicompany.service;
+package Backend.Project.TaxiCompany.Service;
 
-import com.example.taxicompany.exception.RecordNotFoundException;
-import com.example.taxicompany.model.Driver;
+import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
+import Backend.Project.TaxiCompany.Model.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

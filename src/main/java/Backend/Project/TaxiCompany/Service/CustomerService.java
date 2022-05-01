@@ -1,7 +1,6 @@
 package Backend.Project.TaxiCompany.Service;
 
-import Backend.Project.TaxiCompany.Entity.Customer;
-import Backend.Project.TaxiCompany.Entity.Invoice;
+import Backend.Project.TaxiCompany.Model.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

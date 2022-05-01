@@ -1,6 +1,8 @@
-package com.example.taxicompany.config;
+package Backend.Project.TaxiCompany.Config;
 
-import com.example.taxicompany.model.*;
+
+import Backend.Project.TaxiCompany.Model.*;
+import Backend.Project.TaxiCompany.Service.*;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

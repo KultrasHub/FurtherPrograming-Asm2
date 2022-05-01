@@ -1,9 +1,9 @@
-package com.example.taxicompany.controller;
+package Backend.Project.TaxiCompany.Controller;
 
-import com.example.taxicompany.exception.RecordNotFoundException;
-import com.example.taxicompany.model.Invoice;
-import com.example.taxicompany.repository.InvoiceRepository;
-import com.example.taxicompany.service.InvoiceService;
+import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
+
+import Backend.Project.TaxiCompany.Model.Invoice;
+import Backend.Project.TaxiCompany.Service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
