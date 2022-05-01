@@ -17,7 +17,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan
 public class AppConfig {
-    //ENtity creation
+    //Entity creation
     @Bean
     public Booking booking()
     {
@@ -51,11 +51,11 @@ public class AppConfig {
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.hbm2ddl.auto", "update");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        //To use postgresql
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/codejava");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("pass");
+    //Update this to postgreSQL
+        dataSource.setDriverClassName("org.postgresql.Driver ");
+        dataSource.setUrl("jdbc:postgresql://localhost:3306/codeJava");
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);

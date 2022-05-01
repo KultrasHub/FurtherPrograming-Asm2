@@ -14,6 +14,10 @@ public class Car {
     @Column
     private String licensePlate;
 
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
     public Car(ZonedDateTime createdDate, String licensePlate) {
         this.createdDate = createdDate;
         this.licensePlate = licensePlate;
@@ -34,5 +38,9 @@ public class Car {
 
     public String getLicensePlate() {
         return licensePlate;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
