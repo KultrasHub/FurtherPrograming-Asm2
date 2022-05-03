@@ -1,6 +1,7 @@
 package Backend.Project.TaxiCompany.Service;
 import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
+import Backend.Project.TaxiCompany.Model.Invoice;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,11 @@ public class CarService {
     public void saveCar(Car car){
         sessionFactory.getCurrentSession().save(car);
     }
-    @Transactional
     public List<Car> getAllCar(){
         return this.sessionFactory.getCurrentSession().createQuery("from Car").list();
     }
 
     // create a new car
-    @Transactional
     public Car addCar(Car car){sessionFactory.getCurrentSession().persist(car);
         return addCar(car);
     }
@@ -48,7 +47,6 @@ public class CarService {
     }
 
     //delete cars
-    @Transactional
     public void deleteCar(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Car car = (Car) session.load(Car.class, new Long(id));

@@ -1,6 +1,7 @@
 package Backend.Project.TaxiCompany.Service;
 
 import Backend.Project.TaxiCompany.Model.Customer;
+import Backend.Project.TaxiCompany.Model.Invoice;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class CustomerService {
     @Autowired
     private SessionFactory sessionFactory;
@@ -21,33 +23,28 @@ public class CustomerService {
         this.sessionFactory = sessionFactory;
     }
     //add  customer
-    @Transactional
     public Customer addCustomer(Customer customer){sessionFactory.getCurrentSession().persist(customer);
         return addCustomer(customer);
     }
 
     //getAll customer
-    @Transactional
     public List<Customer> getAllCustomers(){
         return this.sessionFactory.getCurrentSession().createQuery("from Customer").list();
     }
 
     //getCustomer by name
-    @Transactional
     public Customer getCustomerByName(String name){
         Session session = this.sessionFactory.getCurrentSession();
         Customer customer = (Customer) session.load(Customer.class, new String(name));
         return getCustomerByName(name);
     }
 
-    @Transactional
     public Customer getCustomerByAddress(String Address){
         Session session = this.sessionFactory.getCurrentSession();
         Customer customer = (Customer) session.load(Customer.class, new String(Address));
         return getCustomerByAddress(Address);
     }
 
-    @Transactional
     public Customer getCustomerByPhone(String phone){
         Session session = this.sessionFactory.getCurrentSession();
         Customer customer = (Customer) session.load(Customer.class, new String(phone));
@@ -55,7 +52,6 @@ public class CustomerService {
     }
 
     //deleteCustomer
-    @Transactional
     public void deleteCustomer(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Customer customer = (Customer) session.load(Customer.class, new Long(id));
@@ -63,6 +59,10 @@ public class CustomerService {
             session.delete(customer);
         }
 
+    }
+    public  void saveCustomer(Customer customer)
+    {
+        sessionFactory.getCurrentSession().save(customer);
     }
 
 

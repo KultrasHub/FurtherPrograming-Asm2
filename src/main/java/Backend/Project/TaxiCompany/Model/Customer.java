@@ -18,16 +18,17 @@ public class Customer {
     @Column
     private String phone;
 
-    public Customer(ZonedDateTime createdDate, String name) {
-        this.createdDate = createdDate;
-        this.name = name;
-    }
 
     public Customer() {
 
     }
 
     //builder
+    public Customer setName(String name)
+    {
+        this.name=name;
+        return this;
+    }
     public Customer setAddress(String address)
     {
         this.address = address;

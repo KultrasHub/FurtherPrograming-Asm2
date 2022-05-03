@@ -16,7 +16,9 @@ import java.util.List;
 public class InvoiceService {
     @Autowired
     private SessionFactory sessionFactory;
-
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
    public List<Invoice> getAllInvoices() {
        List<Invoice> invoiceList = sessionFactory.getCurrentSession().createQuery("from Invoice").list();
        if(invoiceList.size() > 0) {
@@ -67,5 +69,9 @@ public class InvoiceService {
                .createQuery("delete from Invoice I where I.id = :id")
                .setParameter("id", id)
                .executeUpdate();
+   }
+   public  void saveInvoice(Invoice invoice)
+   {
+       sessionFactory.getCurrentSession().save(invoice);
    }
 }

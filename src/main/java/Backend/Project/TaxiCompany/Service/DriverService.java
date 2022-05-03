@@ -2,6 +2,7 @@ package Backend.Project.TaxiCompany.Service;
 
 import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
 import Backend.Project.TaxiCompany.Model.Driver;
+import Backend.Project.TaxiCompany.Model.Invoice;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import java.util.List;
 public class DriverService {
     @Autowired
     private SessionFactory sessionFactory;
-
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
     public List<Driver> getAllDrivers() {
         List<Driver> driverList = sessionFactory.getCurrentSession().createQuery("from Driver").list();
         if(driverList.size() > 0) {
@@ -66,5 +69,10 @@ public class DriverService {
                 .createQuery("delete from Driver I where I.id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    public  void saveDriver(Driver driver)
+    {
+        sessionFactory.getCurrentSession().save(driver);
     }
 }
