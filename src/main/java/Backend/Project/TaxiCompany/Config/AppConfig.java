@@ -65,7 +65,6 @@ public class AppConfig {
     @Bean
     public LocalSessionFactoryBean sessionFactory(){
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.hbm2ddl.auto", "update");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
