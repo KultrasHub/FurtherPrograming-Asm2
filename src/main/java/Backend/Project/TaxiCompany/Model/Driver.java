@@ -14,13 +14,9 @@ public class Driver {
     @Column
     private String name;
 
-    public Driver(ZonedDateTime createdDate, String name) {
-        this.createdDate = createdDate;
-        this.name = name;
-    }
 
     public Driver() {
-
+        this.createdDate=ZonedDateTime.now();
     }
 
     public void setName(String name) {

@@ -20,7 +20,7 @@ public class Customer {
 
 
     public Customer() {
-
+        this.createdDate=ZonedDateTime.now();
     }
 
     //builder

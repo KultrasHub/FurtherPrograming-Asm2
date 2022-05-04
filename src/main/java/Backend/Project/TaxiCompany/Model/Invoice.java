@@ -19,16 +19,13 @@ public class Invoice {
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     @JsonIgnore
     private Booking booking;
-    public Invoice(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
 
     public void setId(long id) {
         this.id = id;
     }
 
     public Invoice() {
-
+        this.createdDate=ZonedDateTime.now();
     }
 
     //setter

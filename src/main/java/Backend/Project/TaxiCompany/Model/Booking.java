@@ -31,12 +31,8 @@ public class Booking {
     @JsonIgnore
     private Car car;
 
-    public Booking(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public Booking() {
-
+        this.createdDate=ZonedDateTime.now();
     }
 
     //Builder

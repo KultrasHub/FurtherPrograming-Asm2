@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +71,20 @@ public class InvoiceService {
                .setParameter("id", id)
                .executeUpdate();
    }
+    //Additional API
+    public List<Invoice> listInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
+    {
+        List<Invoice> result = sessionFactory.getCurrentSession()
+                .createQuery("from Invoice I where I.createdDate between :start and :end")
+                .setParameter("start", start)
+                .setParameter("end",end)
+                .list();
+        if(result!=null&&!result.isEmpty())
+        {
+            return result;
+        }
+        return new ArrayList<Invoice>();
+    }
    public  void saveInvoice(Invoice invoice)
    {
        sessionFactory.getCurrentSession().save(invoice);

@@ -18,13 +18,9 @@ public class Car {
         this.licensePlate = licensePlate;
     }
 
-    public Car(ZonedDateTime createdDate, String licensePlate) {
-        this.createdDate = createdDate;
-        this.licensePlate = licensePlate;
-    }
 
     public Car() {
-
+        this.createdDate=ZonedDateTime.now();
     }
 
     //getter

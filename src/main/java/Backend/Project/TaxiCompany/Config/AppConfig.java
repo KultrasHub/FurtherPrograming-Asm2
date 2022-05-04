@@ -25,7 +25,7 @@ public class AppConfig {
     @Scope("prototype")
     public Booking booking()
     {
-        return new Booking(ZonedDateTime.now());
+        return new Booking();
     }
     @Bean
     @Scope("prototype")
