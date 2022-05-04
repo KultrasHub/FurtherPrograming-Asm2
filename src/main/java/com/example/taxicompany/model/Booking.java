@@ -18,17 +18,14 @@ public class Booking {
     //booking should be linked with customer, driver, car
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @JsonIgnore
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_id", referencedColumnName = "id")
-    @JsonIgnore
+    @JoinColumn(name = "driver_Id", referencedColumnName = "id")
     private Driver driver;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @JsonIgnore
     private Car car;
 
     public Booking(ZonedDateTime createdDate) {

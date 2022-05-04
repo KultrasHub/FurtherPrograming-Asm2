@@ -21,7 +21,7 @@ public class AppConfig {
     @Bean
     public Booking booking()
     {
-        return new Booking(ZonedDateTime.now());
+        return new Booking();
     }
     @Bean
     public Car car()
@@ -53,7 +53,7 @@ public class AppConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         //To use postgresql
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/codejava");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/codeJava");
         dataSource.setUsername("postgres");
         dataSource.setPassword("pass");
 
