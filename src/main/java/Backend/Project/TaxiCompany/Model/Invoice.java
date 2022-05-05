@@ -1,6 +1,7 @@
 package Backend.Project.TaxiCompany.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -11,14 +12,11 @@ public class Invoice {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
     private ZonedDateTime createdDate;
     @Column
     private float revenue;
-    @OneToOne
-    @JoinColumn(name = "booking_id", referencedColumnName = "id")
-    @JsonIgnore
-    private Booking booking;
 
     public void setId(long id) {
         this.id = id;
@@ -34,15 +32,6 @@ public class Invoice {
         return this;
     }
 
-    public Booking getBooking() {
-        return booking;
-    }
-
-    public Invoice setBooking(Booking booking)
-    {
-        this.booking=booking;
-        return this;
-    }
 
     //getter
     public long getId() {

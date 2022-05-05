@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Book;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,5 +89,9 @@ public class BookingService {
             return result;
         }
         return new ArrayList<Booking>();
+    }
+
+    public void saveBooking(Booking booking) {
+        sessionFactory.getCurrentSession().save(booking);
     }
 }

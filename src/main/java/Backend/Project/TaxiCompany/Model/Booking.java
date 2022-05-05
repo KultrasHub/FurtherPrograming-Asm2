@@ -28,6 +28,10 @@ public class Booking {
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+    private Invoice invoice;
+
     public Booking() {
         this.createdDate=ZonedDateTime.now();
     }
@@ -67,5 +71,13 @@ public class Booking {
 
     public Car getCar() {
         return car;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

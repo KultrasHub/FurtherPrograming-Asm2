@@ -45,7 +45,43 @@ public class CustomerService {
             throw new RecordNotFoundException("No Customer found for given ID");
         }
     }
+    public Customer getCustomerByName(String name) throws RecordNotFoundException {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Customer C where C.name = :name")
+                .setParameter("name", name)
+                .list();
 
+        if(result != null && !result.isEmpty()) {
+            return (Customer) result.get(0);
+        } else {
+            throw new RecordNotFoundException("No Customer found for given name");
+        }
+    }
+
+    public Customer getCustomerByAddress(String address) throws RecordNotFoundException {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Customer C where C.address = :address")
+                .setParameter("address", address)
+                .list();
+
+        if(result != null && !result.isEmpty()) {
+            return (Customer) result.get(0);
+        } else {
+            throw new RecordNotFoundException("No Customer found for given address");
+        }
+    }
+    public Customer getCustomerByPhone(String phone) throws RecordNotFoundException {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Customer C where C.phone = :phone")
+                .setParameter("phone", phone)
+                .list();
+
+        if(result != null && !result.isEmpty()) {
+            return (Customer) result.get(0);
+        } else {
+            throw new RecordNotFoundException("No Customer found for given phone number");
+        }
+    }
     public Customer createCustomer(Customer customerEntity) {
         sessionFactory.getCurrentSession().save(customerEntity);
         return customerEntity;
@@ -80,32 +116,5 @@ public class CustomerService {
     {
         sessionFactory.getCurrentSession().save(customer);
         return customer;
-    }
-
-
-    public Customer getCustomerByName(String name) {
-        List result = sessionFactory.getCurrentSession()
-                .createQuery("from Customer C where C.name = :name")
-                .setParameter("name", name)
-                .list();
-
-        if(result != null && !result.isEmpty()) {
-            return (Customer) result.get(0);
-        } else {
-            throw new RecordNotFoundException("No Customer found for given ID");
-        }
-    }
-
-    public Customer getCustomerByAddress(String address) {
-        List result = sessionFactory.getCurrentSession()
-                .createQuery("from Customer C where C.address = :address")
-                .setParameter("address", address)
-                .list();
-
-        if(result != null && !result.isEmpty()) {
-            return (Customer) result.get(0);
-        } else {
-            throw new RecordNotFoundException("No Customer found for given ID");
-        }
     }
 }

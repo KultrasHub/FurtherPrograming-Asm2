@@ -24,7 +24,7 @@ public class CarController {
     //admin can create a new car
     @RequestMapping(path = "/admin/cars", method = RequestMethod.POST)
     public ResponseEntity<Car> createdCar(@RequestBody Car car) throws URISyntaxException {
-        Car newCar =  carService.addCar(car);
+        Car newCar =  carService.createCar(car);
         return ResponseEntity.created(new URI("/admin/cars/" + newCar.getId())).body(car);
     }
 
