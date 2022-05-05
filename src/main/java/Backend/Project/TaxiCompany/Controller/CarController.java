@@ -18,7 +18,7 @@ public class CarController {
     //Get all car for admin
     @RequestMapping(path = "/admin/cars", method = RequestMethod.GET)
     public List<Car> getAllCar(){
-        return carService.getAllCar();
+        return carService.getAllCars();
     }
 
     //admin can create a new car
@@ -31,14 +31,14 @@ public class CarController {
 
     @RequestMapping(path = "/admin/cars/{carId}", method = RequestMethod.PUT)
     public ResponseEntity<Void> editCar(@RequestBody Car car, @PathVariable long carId){
-        carService.updateCar(carId,car);
+        carService.updateCarById(carId,car);
         return ResponseEntity.ok().build();
     }
 
     //delete cars
     @RequestMapping(path = "/admin/cars/{carId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteCarById(@PathVariable long carId){
-        carService.deleteCar(carId);
+        carService.deleteCarById(carId);
         return ResponseEntity.ok().build();
     }
 

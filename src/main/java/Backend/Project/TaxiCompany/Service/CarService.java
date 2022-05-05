@@ -16,8 +16,9 @@ public class CarService {
     @Autowired
     private SessionFactory sessionFactory;
     public void setSessionFactory(SessionFactory sessionFactory) {this.sessionFactory = sessionFactory;}
-    public void saveCar(Car car){
+    public Car addCar(Car car){
         sessionFactory.getCurrentSession().save(car);
+        return car;
     }
     //
     //CRUD

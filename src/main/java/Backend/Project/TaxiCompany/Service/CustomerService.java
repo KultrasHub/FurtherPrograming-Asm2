@@ -76,10 +76,36 @@ public class CustomerService {
                 .setParameter("id", id)
                 .executeUpdate();
     }
-    public  void saveCustomer(Customer customer)
+    public Customer addCustomer(Customer customer)
     {
         sessionFactory.getCurrentSession().save(customer);
+        return customer;
     }
 
 
+    public Customer getCustomerByName(String name) {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Customer C where C.name = :name")
+                .setParameter("name", name)
+                .list();
+
+        if(result != null && !result.isEmpty()) {
+            return (Customer) result.get(0);
+        } else {
+            throw new RecordNotFoundException("No Customer found for given ID");
+        }
+    }
+
+    public Customer getCustomerByAddress(String address) {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Customer C where C.address = :address")
+                .setParameter("address", address)
+                .list();
+
+        if(result != null && !result.isEmpty()) {
+            return (Customer) result.get(0);
+        } else {
+            throw new RecordNotFoundException("No Customer found for given ID");
+        }
+    }
 }

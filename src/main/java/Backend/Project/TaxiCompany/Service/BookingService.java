@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Book;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,10 @@ public class BookingService {
     @Autowired
     SessionFactory sessionFactory;
     public  void setSessionFactory(SessionFactory sessionFactory){this.sessionFactory=sessionFactory;}
-    public  void saveBooking(Booking booking)
+    public Booking addBooking(Booking booking)
     {
         sessionFactory.getCurrentSession().save(booking);
+        return booking;
     }
     //CRUD
     public List<Booking> getAllBookings() {
