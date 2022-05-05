@@ -75,11 +75,16 @@ public class AppConfig {
 //        dataSource.setUsername("root");
 //        dataSource.setPassword("");
     //Update this for mysql database
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/codeJava");
-        dataSource.setUsername("root");
-        dataSource.setPassword("123456789kul000");
+        // properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+        // dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        // dataSource.setUrl("jdbc:mysql://localhost:3306/codeJava");
+        // dataSource.setUsername("root");
+        // dataSource.setPassword("123456789kul000");
+        //To use postgresql
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/codeJava");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("pass");
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
