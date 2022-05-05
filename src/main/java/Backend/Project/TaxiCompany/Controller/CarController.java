@@ -24,20 +24,20 @@ public class CarController {
     //admin can create a new car
     @RequestMapping(path = "/admin/cars", method = RequestMethod.POST)
     public ResponseEntity<Car> createdCar(@RequestBody Car car) throws URISyntaxException {
-        Car newCar =  carService.addCar(car);
+        Car newCar =  carService.saveCar(car);
         return ResponseEntity.created(new URI("/admin/cars/" + newCar.getId())).body(car);
+
     }
 
-
-    @RequestMapping(path = "/admin/cars/{carId}", method = RequestMethod.PUT)
+    @RequestMapping(path = "/admin/cars/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> editCar(@RequestBody Car car, @PathVariable long carId){
         carService.updateCar(carId,car);
         return ResponseEntity.ok().build();
     }
 
     //delete cars
-    @RequestMapping(path = "/admin/cars/{carId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteCarById(@PathVariable long carId){
+    @RequestMapping(path = "/admin/cars/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteCarById(@PathVariable("id") long carId){
         carService.deleteCar(carId);
         return ResponseEntity.ok().build();
     }

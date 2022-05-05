@@ -19,6 +19,14 @@ public class Driver {
         this.name = name;
     }
 
+    public Driver() {
+
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

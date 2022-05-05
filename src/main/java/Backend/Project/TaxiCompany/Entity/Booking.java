@@ -1,8 +1,11 @@
 package Backend.Project.TaxiCompany.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.awt.print.Book;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Entity
 @Table(name = "booking")
 public class Booking {
@@ -10,21 +13,35 @@ public class Booking {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+
     @Column
-    private ZonedDateTime createdDate;
+    private ZonedDateTime createdDate;//2022-05-06T12:00+07:00
+
     //booking should be linked with customer, driver, car
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnore
     private Customer customer;
-    @Column
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "driver_id", referencedColumnName = "id")
+    @JsonIgnore
     private Driver driver;
-    @Column
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @JsonIgnore
     private Car car;
+
     public Booking(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
+
+    public Booking() {
+
+    }
+
     //Builder
     public Booking setCustomer(Customer c)
     {

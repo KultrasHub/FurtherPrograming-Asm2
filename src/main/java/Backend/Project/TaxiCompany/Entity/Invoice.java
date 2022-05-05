@@ -16,9 +16,14 @@ public class Invoice {
     @OneToOne
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     private Booking booking;
+
+    public Invoice() {
+    }
+
     public Invoice(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
+
     //setter
 
     public Invoice setRevenue(float revenue) {

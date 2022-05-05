@@ -5,39 +5,38 @@ import Backend.Project.TaxiCompany.Entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 
 @Service
+@Transactional
 public class CarService {
     @Autowired
     private SessionFactory sessionFactory;
     public void setSessionFactory(SessionFactory sessionFactory) {this.sessionFactory = sessionFactory;}
-    public void saveCar(Car car){
-        sessionFactory.getCurrentSession().save(car);
-    }
-    @Transactional
+
+
+
     public List<Car> getAllCar(){
         return this.sessionFactory.getCurrentSession().createQuery("from Car").list();
     }
 
     // create a new car
-    @Transactional
-    public Car addCar(Car car){sessionFactory.getCurrentSession().persist(car);
-        return addCar(car);
+    public Car saveCar(Car car){
+        sessionFactory.getCurrentSession().save(car);
+        return car;
     }
 
     //find car by id
     public Car getCarById(long id){
-        Session session = this.sessionFactory.getCurrentSession();
-        Customer customer = (Customer) session.load(Customer.class, new Long(id));
-        return getCarById(id);
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Car c where c.id = :id")
+                .setParameter("id", id)
+                .list();
+
+        return (Car) result.get(0);
     }
 
     //edit a car
@@ -49,7 +48,6 @@ public class CarService {
     }
 
     //delete cars
-    @Transactional
     public void deleteCar(long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Car car = (Car) session.load(Car.class, new Long(id));
