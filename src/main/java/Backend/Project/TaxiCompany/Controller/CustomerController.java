@@ -13,7 +13,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     // add customer
-    @RequestMapping(path = "/addCustomer", method = RequestMethod.POST)
+    @RequestMapping(path = "/customer", method = RequestMethod.POST)
     public Customer createCustomer(@RequestBody Customer customer){
         return customerService.createCustomer(customer);
     }
@@ -24,7 +24,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @RequestMapping(path = "/customer/id/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/customer/{id}", method = RequestMethod.GET)
     public Customer getCustomerById(@PathVariable("id") Long id) {
         Customer customer = customerService.getCustomerById(id);
         return customer;
@@ -48,7 +48,7 @@ public class CustomerController {
         return customerService.getCustomerByPhone(phone);
     }
 
-    @RequestMapping(path = "/deleteCustomer/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "/customer/{id}", method = RequestMethod.DELETE)
     public void deleteCustomer(@PathVariable("id") long id){
         customerService.deleteCustomerById(id);
     }

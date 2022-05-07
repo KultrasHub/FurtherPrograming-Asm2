@@ -77,7 +77,7 @@ public class BookingService {
     }
 
     //Additional API
-    public List<Booking> listBookingBetween(ZonedDateTime start,ZonedDateTime end)
+    public List<Booking> getBookingInAPeriod(ZonedDateTime start,ZonedDateTime end)
     {
         List<Booking> result = sessionFactory.getCurrentSession()
                 .createQuery("from Booking B where B.createdDate between :start and :end")
