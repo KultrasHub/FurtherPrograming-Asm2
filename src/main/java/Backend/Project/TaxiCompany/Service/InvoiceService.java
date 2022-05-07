@@ -42,6 +42,46 @@ public class InvoiceService {
        }
    }
 
+   public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
+       System.out.println(id + " " + start + end);
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("select B.invoice from Booking B where B.customer.id = :id")
+                .setParameter("id", id)
+                .list();
+        if(result != null && !result.isEmpty()) {
+            ArrayList<Invoice> invoices = new ArrayList<>();
+            for(int i = 0; i < result.size(); i++){
+                Invoice invoice = (Invoice) result.get(i);
+                ZonedDateTime date = invoice.getCreatedDate();
+                if(date.isAfter(start) && date.isBefore(end)){
+                    invoices.add(invoice);
+                }
+            }
+            return invoices;
+        }
+        return new ArrayList<Invoice>();
+   }
+
+   public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
+       System.out.println(id + " " + start + end);
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("select B.invoice from Booking B where B.driver.id = :id")
+                .setParameter("id", id)
+                .list();
+        if(result != null && !result.isEmpty()) {
+            ArrayList<Invoice> invoices = new ArrayList<>();
+            for(int i = 0; i < result.size(); i++){
+                Invoice invoice = (Invoice) result.get(i);
+                ZonedDateTime date = invoice.getCreatedDate();
+                if(date.isAfter(start) && date.isBefore(end)){
+                    invoices.add(invoice);
+                }
+            }
+            return invoices;
+        }
+        return new ArrayList<Invoice>();
+   }
+
    public Invoice createInvoice(Invoice invoiceEntity) {
        sessionFactory.getCurrentSession().save(invoiceEntity);
        return invoiceEntity;
@@ -57,7 +97,6 @@ public class InvoiceService {
            Invoice invoice = (Invoice) result.get(0);
            session.evict(invoice);
            invoice.setRevenue(invoiceEntity.getRevenue());
-           invoice.setBooking(invoiceEntity.getBooking());
            session.update(invoice);
            return invoice;
        } else {

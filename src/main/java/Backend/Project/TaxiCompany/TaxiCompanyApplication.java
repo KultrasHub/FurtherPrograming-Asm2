@@ -3,6 +3,7 @@ package Backend.Project.TaxiCompany;
 import Backend.Project.TaxiCompany.Config.AppConfig;
 import Backend.Project.TaxiCompany.Model.*;
 import Backend.Project.TaxiCompany.Service.*;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -10,7 +11,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class TaxiCompanyApplication {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+            SpringApplication.run(TaxiCompanyApplication.class, args);
+//        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
 //        //service
 //        BookingService bs=context.getBean(BookingService.class);
 //        CarService cars=context.getBean(CarService.class);
@@ -37,9 +39,7 @@ public class TaxiCompanyApplication {
 //        d2.setName("Black fish");
 //        //
 //        Invoice i1=context.getBean(Invoice.class);
-//        i1.setBooking(b1);
 //        Invoice i2=context.getBean(Invoice.class);
-//        i2.setBooking(b2);
 //        //set booking
 ////        cars.saveCar(car1);
 ////        cars.saveCar(car2);
@@ -48,14 +48,14 @@ public class TaxiCompanyApplication {
 //        ds.saveDriver(d1);
 //        ds.saveDriver(d2);
 //        //
-//        b1.setCar(car1).setCustomer(cus1).setDriver(d1);
-//        b2.setCar(car2).setDriver(d2).setCustomer(cus2);
+//        b1.setCar(car1).setCustomer(cus1).setDriver(d1).setInvoice(i1);
+//        b2.setCar(car2).setDriver(d2).setCustomer(cus2).setInvoice(i2);
 //        //saving
 //
-//        i1.setBooking(b1);
-//        i2.setBooking(b2);
 //        is.saveInvoice(i1);
 //        is.saveInvoice(i2);
+//        bs.saveBooking(b1);
+//        bs.saveBooking(b2);
     }
 
 }

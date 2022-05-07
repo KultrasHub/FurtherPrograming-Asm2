@@ -15,7 +15,7 @@ public class CustomerController {
     // add customer
     @RequestMapping(path = "/addCustomer", method = RequestMethod.POST)
     public Customer createCustomer(@RequestBody Customer customer){
-        return customerService.addCustomer(customer);
+        return customerService.createCustomer(customer);
     }
 
     // get all customer
@@ -24,22 +24,28 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
+    @RequestMapping(path = "/customer/id/{id}", method = RequestMethod.GET)
+    public Customer getCustomerById(@PathVariable("id") Long id) {
+        Customer customer = customerService.getCustomerById(id);
+        return customer;
+    }
+
     //get a customer by name
-    @RequestMapping(path = "/customer/{name}", method = RequestMethod.GET)
-    public Customer getCustomerByName(@PathVariable String name){
+    @RequestMapping(path = "/customer&n={name}", method = RequestMethod.GET)
+    public Customer getCustomerByName(@PathVariable("name") String name){
         return customerService.getCustomerByName(name);
     }
 
     //get a customer by address
-    @RequestMapping(path = "/customer/{address}", method = RequestMethod.GET)
-    public Customer getCustomerByAddress(@PathVariable String address){
+    @RequestMapping(path = "/customer&a={address}", method = RequestMethod.GET)
+    public Customer getCustomerByAddress(@PathVariable("address") String address){
         return customerService.getCustomerByAddress(address);
     }
 
     //get a customer by phone
-    @RequestMapping(path = "/customer/{phone}", method = RequestMethod.GET)
+    @RequestMapping(path = "/customer&p={phone}", method = RequestMethod.GET)
     public Customer getCustomerByPhone(@PathVariable String phone){
-        return customerService.getCustomerByAddress(phone);
+        return customerService.getCustomerByPhone(phone);
     }
 
     @RequestMapping(path = "/deleteCustomer/{id}", method = RequestMethod.DELETE)
