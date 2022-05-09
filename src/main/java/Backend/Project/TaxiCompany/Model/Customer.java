@@ -18,6 +18,9 @@ public class Customer {
     @Column
     private String phone;
 
+    public Customer(long id) {
+        this.id = id;
+    }
 
     public Customer() {
         this.createdDate=ZonedDateTime.now();

@@ -18,6 +18,9 @@ public class Car {
         this.licensePlate = licensePlate;
     }
 
+    public Car(long id) {
+        this.id = id;
+    }
 
     public Car() {
         this.createdDate=ZonedDateTime.now();

@@ -1,7 +1,7 @@
 package Backend.Project.TaxiCompany.Controller;
 
 import Backend.Project.TaxiCompany.Exception.*;
-import Backend.Project.TaxiCompany.Model.Invoice;
+import Backend.Project.TaxiCompany.Model.*;
 import Backend.Project.TaxiCompany.Service.InvoiceService;
 import Backend.Project.TaxiCompany.TaxiCompanyApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -34,13 +32,12 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes= TaxiCompanyApplication.class)
 @WebMvcTest(InvoiceController.class)
-public class InvoiceControllerTest {
+public class InvoiceControllerTests {
 
     @Autowired
     private MockMvc mvc;
@@ -59,6 +56,21 @@ public class InvoiceControllerTest {
     Invoice invoice2 = new Invoice(id2, ZonedDateTime.now(), revenue2);
     Invoice invoice3 = new Invoice(id3, ZonedDateTime.now(), revenue3);
 
+    Customer customer1 = new Customer(id1);
+    Customer customer2 = new Customer(id2);
+    Customer customer3 = new Customer(id3);
+
+    Driver driver1 = new Driver(id1);
+    Driver driver2 = new Driver(id2);
+    Driver driver3 = new Driver(id3);
+
+    Car car1 = new Car(id1);
+    Car car2 = new Car(id2);
+    Car car3 = new Car(id3);
+
+    Booking booking1 = new Booking(id1, ZonedDateTime.now(), customer1, driver1, car1, invoice1);
+    Booking booking2 = new Booking(id2, ZonedDateTime.now(), customer2, driver2, car2, invoice2);
+    Booking booking3 = new Booking(id3, ZonedDateTime.now(), customer3, driver3, car3, invoice3);
 
     @BeforeEach
     void setUp() {
@@ -98,6 +110,7 @@ public class InvoiceControllerTest {
 
     @Test
     public void getInvoicesByACustomerInAPeriod() {
+
     }
 
     @Test
@@ -115,7 +128,7 @@ public class InvoiceControllerTest {
                 .post(rootURI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(invoice));
+                .content(mapper.writeValueAsString(invoice));
 
         mvc.perform(mockRequest)
                 .andExpect(status().isOk())
@@ -124,7 +137,7 @@ public class InvoiceControllerTest {
     }
 
     @Test
-    public void updateInvoiceById_success() throws Exception{
+    public void updateInvoice_success() throws Exception{
         Invoice newInvoice = new Invoice(id1, ZonedDateTime.now(), revenue4);
 
         Mockito.when(service.getInvoiceById(invoice1.getId())).thenReturn(invoice1);
@@ -134,7 +147,7 @@ public class InvoiceControllerTest {
                 .put(rootURI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(newInvoice));
+                .content(mapper.writeValueAsString(newInvoice));
 
         mvc.perform(mockRequest)
                 .andExpect(status().isOk())
@@ -144,14 +157,14 @@ public class InvoiceControllerTest {
     }
 
     @Test
-    public void updateInvoiceById_nullId() throws Exception{
+    public void updateInvoice_nullId() throws Exception{
         Invoice newInvoice = new Invoice(ZonedDateTime.now(), revenue4);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
                 .put(rootURI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(newInvoice));
+                .content(mapper.writeValueAsString(newInvoice));
 
         mvc.perform(mockRequest)
                 .andExpect(status().isBadRequest())
@@ -162,16 +175,18 @@ public class InvoiceControllerTest {
     }
 
     @Test
-    public void updateInvoiceById_recordNotFound() throws Exception {
+    public void updateInvoice_recordNotFound() throws Exception {
         Invoice newInvoice = new Invoice((long)10, ZonedDateTime.now(), revenue4);
+        List<Invoice> invoices = new ArrayList<>(Arrays.asList(invoice1, invoice2, invoice3));
 
-        Mockito.when((service.updateInvoice(eq(newInvoice.getId()), any(Invoice.class)))).thenThrow(new RecordNotFoundException("No invoice found for given ID!"));
+        Mockito.when(service.getAllInvoices()).thenReturn(invoices);
+        Mockito.when(service.updateInvoice(eq(newInvoice.getId()), any(Invoice.class))).thenThrow(new RecordNotFoundException("No invoice found for given ID!"));
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
                 .put(rootURI)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(newInvoice));
+                .content(mapper.writeValueAsString(newInvoice));
 
         mvc.perform(mockRequest)
                 .andExpect(status().isNotFound())
@@ -184,7 +199,7 @@ public class InvoiceControllerTest {
     @Test
     public void deleteInvoiceById_success() throws Exception{
         List<Invoice> invoices = new ArrayList<>(Arrays.asList(invoice1, invoice2, invoice3));
-        int size = invoices.size();
+
         Mockito.when(service.getAllInvoices()).thenReturn(invoices);
         Mockito.when(service.getInvoiceById(invoice2.getId())).thenReturn(invoice2);
 

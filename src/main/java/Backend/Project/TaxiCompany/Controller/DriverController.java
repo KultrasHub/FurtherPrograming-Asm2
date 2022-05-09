@@ -1,5 +1,6 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Exception.InvalidRequestException;
 import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
 import Backend.Project.TaxiCompany.Model.Driver;
 import Backend.Project.TaxiCompany.Service.DriverService;
@@ -36,14 +37,17 @@ public class DriverController {
         return new ResponseEntity<Driver>(created, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Driver> updateDriverById(@PathVariable("id") Long id,@RequestBody Driver driver)  throws RecordNotFoundException {
-        Driver updated = service.updateDriverById(id, driver);
+    @PutMapping
+    public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) throws Exception {
+        if(driver == null || driver.getId() == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
+        Driver updated = service.updateDriverById(driver.getId(), driver);
         return new ResponseEntity<Driver>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public HttpStatus deleteDriverById(@PathVariable("id") Long id, @RequestBody Driver driver) throws RecordNotFoundException {
+    public HttpStatus deleteDriverById(@PathVariable("id") Long id) throws RecordNotFoundException {
         service.deleteDriverById(id);
         return HttpStatus.OK;
     }

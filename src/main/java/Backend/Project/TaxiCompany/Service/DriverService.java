@@ -38,7 +38,7 @@ public class DriverService {
         if(result != null && !result.isEmpty()) {
             return (Driver) result.get(0);
         } else {
-            throw new RecordNotFoundException("No driver found for given ID");
+            throw new RecordNotFoundException("No driver found for given ID!");
         }
     }
 

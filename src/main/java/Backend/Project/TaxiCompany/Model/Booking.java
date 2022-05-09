@@ -32,6 +32,15 @@ public class Booking {
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     private Invoice invoice;
 
+    public Booking(long id, ZonedDateTime createdDate, Customer customer, Driver driver, Car car, Invoice invoice) {
+        this.id = id;
+        this.createdDate = createdDate;
+        this.customer = customer;
+        this.driver = driver;
+        this.car = car;
+        this.invoice = invoice;
+    }
+
     public Booking() {
         this.createdDate=ZonedDateTime.now();
     }
