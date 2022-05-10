@@ -19,8 +19,14 @@ public class Driver {
         this.createdDate=ZonedDateTime.now();
     }
 
-    public void setName(String name) {
+    public Driver setName(String name) {
         this.name = name;
+        return  this;
+    }
+    public Driver setCreatedDate(ZonedDateTime dateTime)
+    {
+        createdDate=dateTime;
+        return this;
     }
 
     public long getId() {

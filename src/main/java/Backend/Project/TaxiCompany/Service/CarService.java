@@ -16,10 +16,6 @@ public class CarService {
     @Autowired
     private SessionFactory sessionFactory;
     public void setSessionFactory(SessionFactory sessionFactory) {this.sessionFactory = sessionFactory;}
-    public Car addCar(Car car){
-        sessionFactory.getCurrentSession().save(car);
-        return car;
-    }
     //
     //CRUD
     public List<Car> getAllCars() {
@@ -58,7 +54,8 @@ public class CarService {
         if(result != null && !result.isEmpty()) {
             Car car = (Car) result.get(0);
             session.evict(car);
-            car.setLicensePlate(carEntity.getLicensePlate());
+            car.setLicensePlate(carEntity.getLicensePlate())
+                    .setCreatedDate(carEntity.getCreatedDate());
             session.update(car);
             return car;
         } else {

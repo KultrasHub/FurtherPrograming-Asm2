@@ -22,7 +22,7 @@ public class DriverService {
     }
     public List<Driver> getAllDrivers() {
         List<Driver> driverList = sessionFactory.getCurrentSession().createQuery("from Driver").list();
-        if(driverList.size() > 0) {
+        if(driverList!=null&& driverList.size() > 0) {
             return driverList;
         } else {
             return new ArrayList<Driver>();
@@ -56,7 +56,8 @@ public class DriverService {
         if(result != null && !result.isEmpty()) {
             Driver driver = (Driver) result.get(0);
             session.evict(driver);
-            driver.setName(driverEntity.getName());
+            driver.setName(driverEntity.getName())
+                    .setCreatedDate(driverEntity.getCreatedDate());
             session.update(driver);
             return driver;
         } else {

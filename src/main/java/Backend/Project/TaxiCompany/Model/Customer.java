@@ -39,6 +39,11 @@ public class Customer {
         this.phone=phone;
         return this;
     }
+    public Customer setCreatedDate(ZonedDateTime dateTime)
+    {
+        createdDate=dateTime;
+        return this;
+    }
     //getter
 
     public long getId() {
@@ -60,4 +65,5 @@ public class Customer {
     public String getPhone() {
         return phone;
     }
+
 }

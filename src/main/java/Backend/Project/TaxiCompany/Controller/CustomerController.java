@@ -1,8 +1,10 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,12 @@ public class CustomerController {
     public List<Customer> getAllCustomer(){
         return customerService.getAllCustomers();
     }
-
+    //Update Customer
+    @RequestMapping(path = "/customer/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateCustomer(@RequestBody Customer cus, @PathVariable long id){
+        customerService.updateCustomerById(id,cus);
+        return ResponseEntity.ok().build();
+    }
     @RequestMapping(path = "/customer/{id}", method = RequestMethod.GET)
     public Customer getCustomerById(@PathVariable("id") Long id) {
         Customer customer = customerService.getCustomerById(id);

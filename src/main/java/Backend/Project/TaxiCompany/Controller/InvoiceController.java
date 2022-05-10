@@ -33,7 +33,16 @@ public class InvoiceController {
 
         return new ResponseEntity<Invoice>(invoice, new HttpHeaders(), HttpStatus.OK);
     }
-
+    @GetMapping("/a")
+    public ResponseEntity<List<Invoice>> getInvoiceInAPeriod(
+            @RequestParam("start")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam("end")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end)
+    {
+        List<Invoice> invoices=service.getInvoiceBetween(start,end);
+        return new ResponseEntity<List<Invoice>>(invoices,new HttpHeaders(),HttpStatus.OK);
+    }
     @GetMapping("/c")
     public ResponseEntity<List<Invoice>> getInvoicesByACustomerInAPeriod(
             @RequestParam("id") Long id,

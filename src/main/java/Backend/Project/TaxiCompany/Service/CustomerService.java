@@ -96,9 +96,10 @@ public class CustomerService {
         if(result != null && !result.isEmpty()) {
             Customer cus = (Customer) result.get(0);
             session.evict(cus);
-            cus.setName(customerEntity.getName());
-            cus.setAddress((customerEntity.getAddress()));
-            cus.setPhone(customerEntity.getPhone());
+            cus.setName(customerEntity.getName())
+                    .setAddress(customerEntity.getAddress())
+                    .setPhone((customerEntity.getPhone()))
+                    .setCreatedDate(customerEntity.getCreatedDate());
             session.update(cus);
             return cus;
         } else {

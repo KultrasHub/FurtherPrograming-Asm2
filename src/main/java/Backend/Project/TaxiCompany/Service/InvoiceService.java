@@ -22,7 +22,7 @@ public class InvoiceService {
     }
    public List<Invoice> getAllInvoices() {
        List<Invoice> invoiceList = sessionFactory.getCurrentSession().createQuery("from Invoice").list();
-       if(invoiceList.size() > 0) {
+       if(invoiceList!=null && invoiceList.size() > 0) {
            return invoiceList;
        } else {
            return new ArrayList<Invoice>();
@@ -45,7 +45,7 @@ public class InvoiceService {
    public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
        System.out.println(id + " " + start + end);
         List result = sessionFactory.getCurrentSession()
-                .createQuery("select B.invoice from Booking B where B.customer.id = :id")
+                .createQuery("select I.booking from Invoice I where I.booking.customer.id = :id")
                 .setParameter("id", id)
                 .list();
         if(result != null && !result.isEmpty()) {
@@ -96,7 +96,8 @@ public class InvoiceService {
        if(result != null && !result.isEmpty()) {
            Invoice invoice = (Invoice) result.get(0);
            session.evict(invoice);
-           invoice.setRevenue(invoiceEntity.getRevenue());
+           invoice.setRevenue(invoiceEntity.getRevenue())
+                   .setCreatedDate(invoiceEntity.getCreatedDate());
            session.update(invoice);
            return invoice;
        } else {
@@ -111,7 +112,7 @@ public class InvoiceService {
                .executeUpdate();
    }
     //Additional API
-    public List<Invoice> listInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
+    public List<Invoice> getInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
     {
         List<Invoice> result = sessionFactory.getCurrentSession()
                 .createQuery("from Invoice I where I.createdDate between :start and :end")
@@ -124,6 +125,19 @@ public class InvoiceService {
         }
         return new ArrayList<Invoice>();
     }
+    //get total revenue
+    public float getTotalRevenue(ZonedDateTime start, ZonedDateTime end)
+    {
+        float result=0;
+        List<Invoice> invoicesFound=getInvoiceBetween(start,end);
+        for(int i=0;i<invoicesFound.size();i++)
+        {
+            result+=invoicesFound.get(i).getRevenue();
+        }
+        return result;
+    }
+
+    //
    public  void saveInvoice(Invoice invoice)
    {
        sessionFactory.getCurrentSession().save(invoice);

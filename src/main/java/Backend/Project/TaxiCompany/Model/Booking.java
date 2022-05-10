@@ -21,16 +21,13 @@ public class Booking {
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "driver_Id", referencedColumnName = "id")
+    @JoinColumn(name = "driver_id", referencedColumnName = "id")
     private Driver driver;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
-    private Invoice invoice;
 
     public Booking() {
         this.createdDate=ZonedDateTime.now();
@@ -51,6 +48,11 @@ public class Booking {
     {
         car=c;
         return  this;
+    }
+    public Booking setCreatedDate(ZonedDateTime dateTime)
+    {
+        createdDate=dateTime;
+        return this;
     }
     //getter
     public long getId() {
@@ -73,11 +75,4 @@ public class Booking {
         return car;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
-    }
 }

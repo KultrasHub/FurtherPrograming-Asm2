@@ -5,26 +5,22 @@ import Backend.Project.TaxiCompany.Model.Booking;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 @Transactional
 public class BookingService {
     @Autowired
     SessionFactory sessionFactory;
     public  void setSessionFactory(SessionFactory sessionFactory){this.sessionFactory=sessionFactory;}
-    public Booking addBooking(Booking booking)
-    {
-        sessionFactory.getCurrentSession().save(booking);
-        return booking;
-    }
     //CRUD
     public List<Booking> getAllBookings() {
         List<Booking> list = sessionFactory.getCurrentSession().createQuery("from Booking").list();
-        if(list.size() > 0) {
+        if(list!=null && list.size() > 0) {
             return list;
         } else {
             return new ArrayList<Booking>();
@@ -44,9 +40,9 @@ public class BookingService {
         }
     }
 
-    public Booking createBooking(Booking driverEntity) {
-        sessionFactory.getCurrentSession().save(driverEntity);
-        return driverEntity;
+    public Booking createBooking(Booking bookingEntity) {
+        sessionFactory.getCurrentSession().save(bookingEntity);
+        return bookingEntity;
     }
 
     public Booking updateBookingById(Long id, Booking bookingEntity) {
@@ -59,9 +55,10 @@ public class BookingService {
             Booking booking = (Booking) result.get(0);
             session.evict(booking);
             //driver.setName(driverEntity.getName());
-            booking.setCustomer(bookingEntity.getCustomer());
-            booking.setCar(bookingEntity.getCar());
-            booking.setDriver(bookingEntity.getDriver());
+            booking.setCustomer(bookingEntity.getCustomer())
+                    .setCar(bookingEntity.getCar())
+                    .setDriver(bookingEntity.getDriver())
+                    .setCreatedDate(bookingEntity.getCreatedDate());
             session.update(booking);
             return booking;
         } else {
