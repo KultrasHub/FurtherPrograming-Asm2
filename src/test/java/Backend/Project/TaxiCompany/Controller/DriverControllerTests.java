@@ -78,9 +78,22 @@ public class DriverControllerTests {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(size)))
-                .andExpect(jsonPath("$[" + id3 + "].name", is(name3), String.class));
+                .andExpect(jsonPath("$[2].name", is(name3), String.class));
 
     }
+
+    @Test
+    public void getDriverById_success() throws Exception{
+        Mockito.when(service.getDriverById(id3)).thenReturn(driver3);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get(rootURI + id3)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name", is(name3), String.class));
+    }
+
 
     @Test
     public void createDriver_success() throws Exception {

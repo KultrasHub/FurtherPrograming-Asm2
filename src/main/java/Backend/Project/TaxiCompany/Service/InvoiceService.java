@@ -23,7 +23,9 @@ public class InvoiceService {
     }
 
     public List<Invoice> getAllInvoices() {
-        List<Invoice> invoiceList = sessionFactory.getCurrentSession().createQuery("from Invoice").list();
+        List<Invoice> invoiceList = sessionFactory.getCurrentSession()
+                .createQuery("from Invoice")
+                .list();
         if(invoiceList.size() > 0) {
             return invoiceList;
         } else {
@@ -46,7 +48,6 @@ public class InvoiceService {
     }
 
     public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end, Integer page, Integer size){
-        System.out.println(id + " " + start + end);
         List result = sessionFactory.getCurrentSession()
                 .createQuery("select B.invoice from Booking B where B.customer.id = :id")
                 .setParameter("id", id)
@@ -72,7 +73,6 @@ public class InvoiceService {
     }
 
     public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end, Integer page, Integer size){
-        System.out.println(id + " " + start + end);
         List result = sessionFactory.getCurrentSession()
                 .createQuery("select B.invoice from Booking B where B.driver.id = :id")
                 .setParameter("id", id)
@@ -114,13 +114,11 @@ public class InvoiceService {
     public List<Invoice> listInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
     {
         List<Invoice> result = sessionFactory.getCurrentSession()
-                .createQuery("from Invoice I where I.createdDate between :start and :end")
-                .setParameter("start", start)
-                .setParameter("end",end)
+                .createQuery("from Invoice")
                 .list();
         if(result!=null&&!result.isEmpty())
         {
-            return result;
+            return getNewInvoices(start, end, result);
         }
         return new ArrayList<Invoice>();
     }

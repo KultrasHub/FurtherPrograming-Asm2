@@ -21,7 +21,15 @@ public class InvoiceController {
     InvoiceService service;
 
     @GetMapping
-    public ResponseEntity<List<Invoice>> getAllInvoices() {
+    public ResponseEntity<List<Invoice>> getAllInvoices(
+            @RequestParam( name = "start", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam( name = "end", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end ) {
+        if(start != null && end!= null){
+            List<Invoice> list = service.listInvoiceBetween(start, end);
+            return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
+        }
         List<Invoice> list = service.getAllInvoices();
 
         return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
