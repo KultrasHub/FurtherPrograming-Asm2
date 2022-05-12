@@ -45,8 +45,9 @@ public class Driver {
         return createdDate;
     }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
+    public Driver setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
+        return this;
     }
 
     public String getName() {

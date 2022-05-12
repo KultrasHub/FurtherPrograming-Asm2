@@ -35,7 +35,6 @@ public class Booking {
         this.customer = customer;
         this.driver = driver;
         this.car = car;
-        this.invoice = invoice;
     }
 
     public Booking() {

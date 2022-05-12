@@ -60,8 +60,9 @@ public class Invoice {
         return createdDate;
     }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
+    public Invoice setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
+        return this;
     }
 
     public float getRevenue() {
@@ -69,7 +70,7 @@ public class Invoice {
     }
     public Booking getBooking(){return booking;}
 
-    public Invoice setRevenue(Float revenue) {
+    public Invoice setRevenue(float revenue) {
         this.revenue = revenue;
         return this;
     }

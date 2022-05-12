@@ -27,7 +27,7 @@ public class InvoiceController {
             @RequestParam( name = "end", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end ) {
         if(start != null && end!= null){
-            List<Invoice> list = service.listInvoiceBetween(start, end);
+            List<Invoice> list = service.getAllInvoices();
             return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
         }
         List<Invoice> list = service.getAllInvoices();

@@ -110,7 +110,7 @@ public class InvoiceControllerTests {
         int size2 = invoiceList2.size();
 
         Mockito.when(service.getAllInvoices()).thenReturn(invoiceList1);
-        Mockito.when(service.listInvoiceBetween(ZonedDateTime.parse(date2), ZonedDateTime.parse(date3))).thenReturn(invoiceList2);
+        Mockito.when(service.getInvoiceBetween(ZonedDateTime.parse(date2), ZonedDateTime.parse(date3))).thenReturn(invoiceList2);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get(rootURI)

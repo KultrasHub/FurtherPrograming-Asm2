@@ -51,14 +51,9 @@ public class InvoiceService {
                 .createQuery("from Invoice I where I.createdDate between :start and :end")
                 .setParameter("start", start)
                 .setParameter("end",end)
-                .setParameter("id", id)
                 .setFirstResult(page)
                 .setMaxResults(9)
                 .list();
-        return getNewInvoices(start, end, result);
-    }
-
-    private List<Invoice> getNewInvoices(ZonedDateTime start, ZonedDateTime end, List result) {
         if(result != null && !result.isEmpty()) {
             ArrayList<Invoice> invoices = new ArrayList<>();
             //only add the invoice that has the matched Customer id
@@ -84,7 +79,7 @@ public class InvoiceService {
         return new ArrayList<Invoice>();
     }
 
-   public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
+   public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end, Integer page, Integer size){
        System.out.println(id + " " + start + end);
        List result = sessionFactory.getCurrentSession()
                .createQuery("from Invoice I where I.createdDate between :start and :end")
@@ -151,12 +146,14 @@ public class InvoiceService {
     //Additional API
     public List<Invoice> getInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
     {
-        List<Invoice> result = sessionFactory.getCurrentSession()
-                .createQuery("from Invoice")
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Invoice I where I.createdDate between :start and :end")
+                .setParameter("start", start)
+                .setParameter("end",end)
                 .list();
         if(result!=null&&!result.isEmpty())
         {
-            return getNewInvoices(start, end, result);
+            return result;
         }
         return new ArrayList<Invoice>();
     }

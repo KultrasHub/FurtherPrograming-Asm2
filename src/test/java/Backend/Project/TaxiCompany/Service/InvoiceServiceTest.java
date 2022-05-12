@@ -49,12 +49,12 @@ public class InvoiceServiceTest {
         if(i1!=null)
         {
             assertEquals(i1,before.get(0));
-            assertEquals(1,i1.getId());
+            assertTrue(1==i1.getId());
         }
         if(i2!=null)
         {
             assertEquals(i2,before.get(1));
-            assertEquals(2,i2.getId());//correct id
+            assertTrue(2==i2.getId());//correct id
             assertNotEquals(i1,before.get(1));
         }
     }
@@ -83,7 +83,7 @@ public class InvoiceServiceTest {
         ZonedDateTime start=DateTimeFormatConfiguration.String2Time("27,March,1119 ");
         ZonedDateTime end=DateTimeFormatConfiguration.String2Time("31,March,1119");
         //
-        List<Invoice> list=service.getInvoicesByACustomerInAPeriod(cus1.getId(),start,end);
+        List<Invoice> list=service.getInvoicesByACustomerInAPeriod(cus1.getId(),start,end,0,9);
         if(list!=null) {
             for(int i=0;i<list.size();i++)
             {
@@ -118,7 +118,7 @@ public class InvoiceServiceTest {
         ZonedDateTime start=DateTimeFormatConfiguration.String2Time("27,March,1119 ");
         ZonedDateTime end=DateTimeFormatConfiguration.String2Time("31,March,1119");
         //
-        List<Invoice> list=service.getInvoicesByADriverInAPeriod(cus1.getId(),start,end);
+        List<Invoice> list=service.getInvoicesByADriverInAPeriod(cus1.getId(),start,end,0,9);
         if(list!=null) {
             for(int i=0;i<list.size();i++)
             {
@@ -221,10 +221,10 @@ public class InvoiceServiceTest {
         System.out.println("Testing subjects should be Isolated by date from the current Objects in database");
         System.out.println("Testing subjects has created time from 24,March,1119 to 30, March,1119");
         System.out.println("--------------------------------------------------------------------------------");
-        Invoice c1=new Invoice().setRevenue(112).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
-        Invoice c2=new Invoice().setRevenue(142).setCreatedDate(DateTimeFormatConfiguration.String2Time("29,March,1119") );
-        Invoice c3=new Invoice().setRevenue(92).setCreatedDate(DateTimeFormatConfiguration.String2Time("30,March,1119") );
-        Invoice c4=new Invoice().setRevenue(67).setCreatedDate(DateTimeFormatConfiguration.String2Time("24,May,1119") );
+        Invoice c1=new Invoice().setRevenue(112f).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        Invoice c2=new Invoice().setRevenue(142f).setCreatedDate(DateTimeFormatConfiguration.String2Time("29,March,1119") );
+        Invoice c3=new Invoice().setRevenue(92f).setCreatedDate(DateTimeFormatConfiguration.String2Time("30,March,1119") );
+        Invoice c4=new Invoice().setRevenue(67f).setCreatedDate(DateTimeFormatConfiguration.String2Time("24,May,1119") );
         //add
         service.createInvoice(c1);
         service.createInvoice(c2);
