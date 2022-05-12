@@ -14,6 +14,9 @@ public class Car {
     @Column
     private String licensePlate;
 
+    public Car(long id) {
+        this.id = id;
+    }
 
     public Car() {
         this.createdDate=ZonedDateTime.now();

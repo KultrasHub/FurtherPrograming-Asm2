@@ -17,8 +17,9 @@ import java.util.List;
 public class InvoiceService {
     @Autowired
     private SessionFactory sessionFactory;
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
    public List<Invoice> getAllInvoices() {
        List<Invoice> invoiceList = sessionFactory.getCurrentSession().createQuery("from Invoice").list();
@@ -29,27 +30,35 @@ public class InvoiceService {
        }
    }
 
-   public Invoice getInvoiceById(Long id) throws RecordNotFoundException {
-       List result = sessionFactory.getCurrentSession()
-               .createQuery("from Invoice I where I.id = :id")
-               .setParameter("id", id)
-               .list();
 
-       if(result != null && !result.isEmpty()) {
-           return (Invoice) result.get(0);
-       } else {
-           System.out.println("No Invoice found for given Id");
+
+    public Invoice getInvoiceById(Long id) throws RecordNotFoundException {
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Invoice I where I.id = :id")
+                .setParameter("id", id)
+                .list();
+
+        if(result != null && !result.isEmpty()) {
+            return (Invoice) result.get(0);
+        } else {
+            System.out.println("No Invoice found for given Id");
            return null;
-       }
-   }
+        }
+    }
 
-   public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
-       System.out.println(id + " " + start + end);
+    public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end, Integer page, Integer size){
         List result = sessionFactory.getCurrentSession()
                 .createQuery("from Invoice I where I.createdDate between :start and :end")
                 .setParameter("start", start)
                 .setParameter("end",end)
+                .setParameter("id", id)
+                .setFirstResult(page)
+                .setMaxResults(9)
                 .list();
+        return getNewInvoices(start, end, result);
+    }
+
+    private List<Invoice> getNewInvoices(ZonedDateTime start, ZonedDateTime end, List result) {
         if(result != null && !result.isEmpty()) {
             ArrayList<Invoice> invoices = new ArrayList<>();
             //only add the invoice that has the matched Customer id
@@ -73,7 +82,7 @@ public class InvoiceService {
             return invoices;
         }
         return new ArrayList<Invoice>();
-   }
+    }
 
    public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
        System.out.println(id + " " + start + end);
@@ -81,6 +90,8 @@ public class InvoiceService {
                .createQuery("from Invoice I where I.createdDate between :start and :end")
                .setParameter("start", start)
                .setParameter("end",end)
+               .setFirstResult(page)
+               .setMaxResults(size)
                .list();
        if(result != null && !result.isEmpty()) {
            ArrayList<Invoice> invoices = new ArrayList<>();
@@ -141,13 +152,11 @@ public class InvoiceService {
     public List<Invoice> getInvoiceBetween(ZonedDateTime start, ZonedDateTime end)
     {
         List<Invoice> result = sessionFactory.getCurrentSession()
-                .createQuery("from Invoice I where I.createdDate between :start and :end")
-                .setParameter("start", start)
-                .setParameter("end",end)
+                .createQuery("from Invoice")
                 .list();
         if(result!=null&&!result.isEmpty())
         {
-            return result;
+            return getNewInvoices(start, end, result);
         }
         return new ArrayList<Invoice>();
     }

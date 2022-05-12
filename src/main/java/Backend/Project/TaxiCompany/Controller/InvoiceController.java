@@ -1,7 +1,7 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Exception.InvalidRequestException;
 import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
-
 import Backend.Project.TaxiCompany.Model.Invoice;
 import Backend.Project.TaxiCompany.Service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,15 @@ public class InvoiceController {
     InvoiceService service;
 
     @GetMapping
-    public ResponseEntity<List<Invoice>> getAllInvoices() {
+    public ResponseEntity<List<Invoice>> getAllInvoices(
+            @RequestParam( name = "start", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam( name = "end", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end ) {
+        if(start != null && end!= null){
+            List<Invoice> list = service.listInvoiceBetween(start, end);
+            return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
+        }
         List<Invoice> list = service.getAllInvoices();
 
         return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
@@ -49,8 +57,10 @@ public class InvoiceController {
             @RequestParam("start")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
             @RequestParam("end")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
-        List<Invoice> invoices = service.getInvoicesByACustomerInAPeriod(id, start, end);
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "9") Integer size) {
+        List<Invoice> invoices = service.getInvoicesByACustomerInAPeriod(id, start, end, page, size);
 
         return new ResponseEntity<List<Invoice>>(invoices, new HttpHeaders(), HttpStatus.OK);
     }
@@ -61,8 +71,10 @@ public class InvoiceController {
             @RequestParam("start")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
             @RequestParam("end")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
-        List<Invoice> invoices = service.getInvoicesByADriverInAPeriod(id, start, end);
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "9") Integer size) {
+        List<Invoice> invoices = service.getInvoicesByADriverInAPeriod(id, start, end, page, size);
 
         return new ResponseEntity<List<Invoice>>(invoices, new HttpHeaders(), HttpStatus.OK);
     }
@@ -79,12 +91,16 @@ public class InvoiceController {
     @PostMapping
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
         Invoice created = service.createInvoice(invoice);
-        return new ResponseEntity<Invoice>(created, new HttpHeaders(), HttpStatus.OK);
+        ResponseEntity<Invoice> response = new ResponseEntity<Invoice>(created, new HttpHeaders(), HttpStatus.OK);
+        return response;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Invoice> updateInvoiceById(@PathVariable("id") Long id, @RequestBody Invoice invoice) throws RecordNotFoundException {
-        Invoice updated = service.updateInvoice(id, invoice);
+    @PutMapping
+    public ResponseEntity<Invoice> updateInvoiceById(@RequestBody Invoice invoice) throws Exception {
+        if(invoice == null || invoice.getId() == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
+        Invoice updated = service.updateInvoice(invoice.getId(), invoice);
 
         return new ResponseEntity<Invoice>(updated, new HttpHeaders(), HttpStatus.OK);
     }
