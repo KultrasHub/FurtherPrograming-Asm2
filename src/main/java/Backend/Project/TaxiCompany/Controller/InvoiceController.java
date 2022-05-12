@@ -33,7 +33,7 @@ public class InvoiceController {
 
         return new ResponseEntity<Invoice>(invoice, new HttpHeaders(), HttpStatus.OK);
     }
-    @GetMapping("/a")
+    @GetMapping("/period")
     public ResponseEntity<List<Invoice>> getInvoiceInAPeriod(
             @RequestParam("start")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
@@ -62,11 +62,20 @@ public class InvoiceController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
             @RequestParam("end")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
-        List<Invoice> invoices = service.getInvoicesByACustomerInAPeriod(id, start, end);
+        List<Invoice> invoices = service.getInvoicesByADriverInAPeriod(id, start, end);
 
         return new ResponseEntity<List<Invoice>>(invoices, new HttpHeaders(), HttpStatus.OK);
     }
+    @GetMapping("/revenue")
+    public float getTotalRevenue(
+            @RequestParam("start")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam("end")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
+        float revenue = service.getTotalRevenue(start,end);
 
+        return revenue;
+    }
     @PostMapping
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
         Invoice created = service.createInvoice(invoice);

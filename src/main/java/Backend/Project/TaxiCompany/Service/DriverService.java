@@ -38,7 +38,8 @@ public class DriverService {
         if(result != null && !result.isEmpty()) {
             return (Driver) result.get(0);
         } else {
-            throw new RecordNotFoundException("No driver found for given ID");
+            System.out.println("No Driver found for given Id");
+            return null;
         }
     }
 
@@ -61,7 +62,8 @@ public class DriverService {
             session.update(driver);
             return driver;
         } else {
-            throw new RecordNotFoundException("No driver found for given ID");
+            System.out.println("No Driver found for given Id");
+            return null;
         }
     }
 
@@ -72,8 +74,4 @@ public class DriverService {
                 .executeUpdate();
     }
 
-    public  void saveDriver(Driver driver)
-    {
-        sessionFactory.getCurrentSession().save(driver);
-    }
 }

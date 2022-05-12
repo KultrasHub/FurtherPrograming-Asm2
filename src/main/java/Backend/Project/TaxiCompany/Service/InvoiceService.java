@@ -38,23 +38,36 @@ public class InvoiceService {
        if(result != null && !result.isEmpty()) {
            return (Invoice) result.get(0);
        } else {
-           throw new RecordNotFoundException("No invoice found for given ID");
+           System.out.println("No Invoice found for given Id");
+           return null;
        }
    }
 
    public List<Invoice> getInvoicesByACustomerInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
        System.out.println(id + " " + start + end);
         List result = sessionFactory.getCurrentSession()
-                .createQuery("select I.booking from Invoice I where I.booking.customer.id = :id")
-                .setParameter("id", id)
+                .createQuery("from Invoice I where I.createdDate between :start and :end")
+                .setParameter("start", start)
+                .setParameter("end",end)
                 .list();
         if(result != null && !result.isEmpty()) {
             ArrayList<Invoice> invoices = new ArrayList<>();
-            for(int i = 0; i < result.size(); i++){
+            //only add the invoice that has the matched Customer id
+            for(int i=0;i<result.size();i++)
+            {
                 Invoice invoice = (Invoice) result.get(i);
-                ZonedDateTime date = invoice.getCreatedDate();
-                if(date.isAfter(start) && date.isBefore(end)){
-                    invoices.add(invoice);
+                if(invoice.getBooking()!=null)//check booking is not null
+                {
+                    //
+                    if(invoice.getBooking().getCustomer()!=null)//check Customer is not null
+                    {
+                        if(invoice.getBooking().getCustomer().getId()==id)
+                        {
+                            //matched id to add to invoices
+                            invoices.add(invoice);
+                        }
+
+                    }
                 }
             }
             return invoices;
@@ -64,22 +77,34 @@ public class InvoiceService {
 
    public List<Invoice> getInvoicesByADriverInAPeriod(Long id, ZonedDateTime start, ZonedDateTime end){
        System.out.println(id + " " + start + end);
-        List result = sessionFactory.getCurrentSession()
-                .createQuery("select B.invoice from Booking B where B.driver.id = :id")
-                .setParameter("id", id)
-                .list();
-        if(result != null && !result.isEmpty()) {
-            ArrayList<Invoice> invoices = new ArrayList<>();
-            for(int i = 0; i < result.size(); i++){
-                Invoice invoice = (Invoice) result.get(i);
-                ZonedDateTime date = invoice.getCreatedDate();
-                if(date.isAfter(start) && date.isBefore(end)){
-                    invoices.add(invoice);
-                }
-            }
-            return invoices;
-        }
-        return new ArrayList<Invoice>();
+       List result = sessionFactory.getCurrentSession()
+               .createQuery("from Invoice I where I.createdDate between :start and :end")
+               .setParameter("start", start)
+               .setParameter("end",end)
+               .list();
+       if(result != null && !result.isEmpty()) {
+           ArrayList<Invoice> invoices = new ArrayList<>();
+           //only add the invoice that has the matched Customer id
+           for(int i=0;i<result.size();i++)
+           {
+               Invoice invoice = (Invoice) result.get(i);
+               if(invoice.getBooking()!=null)//check booking is not null
+               {
+                   //
+                   if(invoice.getBooking().getDriver()!=null)//check Customer is not null
+                   {
+                       if(invoice.getBooking().getDriver().getId()==id)
+                       {
+                           //matched id to add to invoices
+                           invoices.add(invoice);
+                       }
+
+                   }
+               }
+           }
+           return invoices;
+       }
+       return new ArrayList<Invoice>();
    }
 
    public Invoice createInvoice(Invoice invoiceEntity) {
@@ -101,7 +126,8 @@ public class InvoiceService {
            session.update(invoice);
            return invoice;
        } else {
-           throw new RecordNotFoundException("No invoice found for given ID");
+           System.out.println("No Invoice found for given Id");
+           return null;
        }
    }
 
@@ -137,9 +163,4 @@ public class InvoiceService {
         return result;
     }
 
-    //
-   public  void saveInvoice(Invoice invoice)
-   {
-       sessionFactory.getCurrentSession().save(invoice);
-   }
 }

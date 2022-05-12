@@ -3,6 +3,7 @@ package Backend.Project.TaxiCompany.Controller;
 import Backend.Project.TaxiCompany.Model.Booking;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.BookingService;
+import Backend.Project.TaxiCompany.Support.CarUsage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,8 @@ public class BookingController {
         Booking newBooking =  bookingService.createBooking(booking);
         return ResponseEntity.created(new URI("/bookings/" + newBooking.getId())).body(booking);
     }
-    @RequestMapping(path = "/bookings/a", method = RequestMethod.GET)
+
+    @RequestMapping(path = "/bookings/period", method = RequestMethod.GET)
     public ResponseEntity<List<Booking>> getBookingInAPeriod(
             @RequestParam("start")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
@@ -44,6 +46,12 @@ public class BookingController {
         List<Booking> bookings = bookingService.getBookingInAPeriod( start, end);
 
         return new ResponseEntity<List<Booking>>(bookings, new HttpHeaders(), HttpStatus.OK);
+    }
+    @RequestMapping(path = "/bookings/carUsage", method = RequestMethod.GET)
+    public ResponseEntity<List<CarUsage>> getCarUsage(@RequestParam ("month") String month)
+    {
+        List<CarUsage> usages=bookingService.getCarUsedInAMonth(month);
+        return new ResponseEntity<List<CarUsage>>(usages,new HttpHeaders(),HttpStatus.OK);
     }
 
     @RequestMapping(path = "/bookings/{bookId}", method = RequestMethod.PUT)

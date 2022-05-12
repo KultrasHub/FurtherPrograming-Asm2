@@ -36,7 +36,8 @@ public class CarService {
         if(result != null && !result.isEmpty()) {
             return (Car) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Car found for given ID");
+            System.out.println("No Car found for given ID");
+            return null;
         }
     }
 
@@ -59,7 +60,8 @@ public class CarService {
             session.update(car);
             return car;
         } else {
-            throw new RecordNotFoundException("No Booking found for given ID");
+            System.out.println("No Car found for given ID");
+            return null;
         }
     }
 

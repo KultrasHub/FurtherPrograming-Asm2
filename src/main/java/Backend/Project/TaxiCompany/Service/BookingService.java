@@ -1,7 +1,10 @@
 package Backend.Project.TaxiCompany.Service;
 
+import Backend.Project.TaxiCompany.Config.DateTimeFormatConfiguration;
 import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
 import Backend.Project.TaxiCompany.Model.Booking;
+import Backend.Project.TaxiCompany.Model.Car;
+import Backend.Project.TaxiCompany.Support.CarUsage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +39,8 @@ public class BookingService {
         if(result != null && !result.isEmpty()) {
             return (Booking) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Booking found for given ID");
+            System.out.println("No Booking found for given ID");
+            return null;
         }
     }
 
@@ -62,7 +66,8 @@ public class BookingService {
             session.update(booking);
             return booking;
         } else {
-            throw new RecordNotFoundException("No Booking found for given ID");
+            System.out.println("No Booking found for given ID");
+            return null;
         }
     }
 
@@ -87,8 +92,55 @@ public class BookingService {
         }
         return new ArrayList<Booking>();
     }
+    public List<CarUsage> getCarUsedInAMonth(String monthInput)
+    {
+        //Get time zone from Date Time formatter
+        ZonedDateTime[] period= DateTimeFormatConfiguration.getTimeStone(monthInput);
+        if(period==null)
+        {
+            return  null;
+        }
+        //get List of booking between the time found
+        List<Booking> result = sessionFactory.getCurrentSession()
+                .createQuery("from Booking B where B.createdDate between :start and :end")
+                .setParameter("start", period[0])
+                .setParameter("end",period[1])
+                .list();
+        if(result==null||result.isEmpty())
+        {
+            return null;
+        }
+        //make list for counting cars
+        ArrayList<CarUsage> carList=new ArrayList<CarUsage>();
+        //loop through all booking
+        for(int i=0;i<result.size();i++)
+        {
+            //loop through car list to add new car
+            if(result.get(i).getCar()!=null)//check car
+            {
+                boolean carCounted=false;//reset
+                for(int j=0;j<carList.size();j++)//loop through the car list to add usage to the correct card
+                {
+                    carCounted=carList.get(j).addUsageTime(result.get(i).getCar());
+                    if(carCounted)
+                    {
+                        //move on to the next booking
+                        break;
+                    }
+                }
+                //if the loop is break will not call this
+                if(!carCounted)
+                {
+                    //the car may not be found in the current list so add a new car usage to the list
+                    CarUsage usage=new CarUsage();
+                    usage.addUsageTime(result.get(i).getCar());
+                    //add to list
+                    carList.add(usage);
+                }
+            }
+        }
+        return carList;
 
-    public void saveBooking(Booking booking) {
-        sessionFactory.getCurrentSession().save(booking);
+
     }
 }

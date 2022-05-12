@@ -42,7 +42,8 @@ public class CustomerService {
         if(result != null && !result.isEmpty()) {
             return (Customer) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Customer found for given ID");
+            System.out.println("No Customer found for given Id");
+            return null;
         }
     }
     public Customer getCustomerByName(String name) throws RecordNotFoundException {
@@ -54,7 +55,8 @@ public class CustomerService {
         if(result != null && !result.isEmpty()) {
             return (Customer) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Customer found for given name");
+            System.out.println("No Customer found for given Name");
+            return null;
         }
     }
 
@@ -67,7 +69,8 @@ public class CustomerService {
         if(result != null && !result.isEmpty()) {
             return (Customer) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Customer found for given address");
+            System.out.println("No Customer found for given Address");
+            return null;
         }
     }
     public Customer getCustomerByPhone(String phone) throws RecordNotFoundException {
@@ -79,7 +82,8 @@ public class CustomerService {
         if(result != null && !result.isEmpty()) {
             return (Customer) result.get(0);
         } else {
-            throw new RecordNotFoundException("No Customer found for given phone number");
+            System.out.println("No Customer found for given Number");
+            return null;
         }
     }
     public Customer createCustomer(Customer customerEntity) {
@@ -90,7 +94,7 @@ public class CustomerService {
     public Customer updateCustomerById(Long id, Customer customerEntity) {
         Session session = sessionFactory.getCurrentSession();
         List result =  session
-                .createQuery("from Booking I where I.id = :id")
+                .createQuery("from Customer C where C.id = :id")
                 .setParameter("id", id)
                 .list();
         if(result != null && !result.isEmpty()) {
@@ -103,7 +107,8 @@ public class CustomerService {
             session.update(cus);
             return cus;
         } else {
-            throw new RecordNotFoundException("No Customer found for given ID");
+            System.out.println("No Customer found for given Id");
+            return null;
         }
     }
 
@@ -113,9 +118,5 @@ public class CustomerService {
                 .setParameter("id", id)
                 .executeUpdate();
     }
-    public Customer addCustomer(Customer customer)
-    {
-        sessionFactory.getCurrentSession().save(customer);
-        return customer;
-    }
+
 }
