@@ -183,5 +183,56 @@ public class InvoiceService {
         }
         return result;
     }
+    public float getRevenueOfCustomer(long id,ZonedDateTime start, ZonedDateTime end)
+    {
+        List<Invoice> invoicesFound=getInvoiceBetween(start,end);
+        if(invoicesFound==null||invoicesFound.isEmpty())
+        {
+            return 0f;
+        }
+        float result=0;
+        //get invoices of the customer
+        for(int i=0;i<invoicesFound.size();i++)
+        {
+            if(invoicesFound.get(i).getBooking()!=null)
+            {
+                if(invoicesFound.get(i).getBooking().getCustomer()!=null)
+                {
+                    if(invoicesFound.get(i).getBooking().getCustomer().getId()==id)
+                    {
+                        //this is the invoice of that customer
+                        result+=invoicesFound.get(i).getRevenue();
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
+    public float getRevenueOfDriver(long id,ZonedDateTime start, ZonedDateTime end)
+    {
+        List<Invoice> invoicesFound=getInvoiceBetween(start,end);
+        if(invoicesFound==null||invoicesFound.isEmpty())
+        {
+            return 0f;
+        }
+        float result=0;
+        //get invoices of the customer
+        for(int i=0;i<invoicesFound.size();i++)
+        {
+            if(invoicesFound.get(i).getBooking()!=null)
+            {
+                if(invoicesFound.get(i).getBooking().getDriver()!=null)
+                {
+                    if(invoicesFound.get(i).getBooking().getDriver().getId()==id)
+                    {
+                        //this is the invoice of that customer
+                        result+=invoicesFound.get(i).getRevenue();
+                    }
+                }
+            }
+        }
+        return result;
+        //
+    }
 }

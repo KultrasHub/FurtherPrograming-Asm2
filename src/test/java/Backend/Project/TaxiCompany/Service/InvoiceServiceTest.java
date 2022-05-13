@@ -254,7 +254,7 @@ public class InvoiceServiceTest {
         ZonedDateTime start=DateTimeFormatConfiguration.String2Time("27,March,1119 ");
         ZonedDateTime end=DateTimeFormatConfiguration.String2Time("31,March,1119");
         float total=service.getTotalRevenue(start,end);
-        System.out.println("total is:"+total);
+        //System.out.println("total is:"+total);
         assertTrue((112+142+92)==total);
         assertFalse((112+142+92+67)==total);
         end=DateTimeFormatConfiguration.String2Time("29,March,1119");
@@ -262,6 +262,74 @@ public class InvoiceServiceTest {
         assertTrue(112+142==total);
         assertFalse(112+142+92==total);
     }
+    @Test
+    public void getRevenueOfCustomer()
+    {
+        System.out.println();
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Testing subjects should be Isolated by date from the current Objects in database");
+        System.out.println("Testing subjects has created time from 24,March,1119 to 30, March,1119");
+        System.out.println("--------------------------------------------------------------------------------");
+        Customer cus1=new Customer();
+        Customer cus2=new Customer();
+        Booking b1=new Booking().setCustomer(cus1);
+        Booking b2=new Booking().setCustomer(cus2);
+        Booking b3=new Booking().setCustomer(cus2);
+        Booking b4=new Booking().setCustomer(cus2);
+        Invoice c1=new Invoice().setBooking(b1).setRevenue(112f).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        Invoice c2=new Invoice().setBooking(b2).setRevenue(142f).setCreatedDate(DateTimeFormatConfiguration.String2Time("29,March,1119") );
+        Invoice c3=new Invoice().setBooking(b3).setRevenue(92f).setCreatedDate(DateTimeFormatConfiguration.String2Time("30,March,1119") );
+        Invoice c4=new Invoice().setBooking(b4).setRevenue(67f).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        //add
+        service.createInvoice(c1);
+        service.createInvoice(c2);
+        service.createInvoice(c3);
+        service.createInvoice(c4);
+        ZonedDateTime start=DateTimeFormatConfiguration.String2Time("27,March,1119 ");
+        ZonedDateTime end=DateTimeFormatConfiguration.String2Time("31,March,1119");
+        //
+        float total= service.getRevenueOfCustomer(cus2.getId(),start,end);
+        assertTrue((142+92+67)==total);
+        assertFalse((112+142+92+67)==total);
+        total= service.getRevenueOfCustomer(cus1.getId(),start,end);
+        assertTrue(112==total);
+        assertFalse(112+142+92==total);
 
+    }
+//
+    @Test
+    public void getRevenueOfDriver()
+    {
+        System.out.println();
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Testing subjects should be Isolated by date from the current Objects in database");
+        System.out.println("Testing subjects has created time from 24,March,1119 to 30, March,1119");
+        System.out.println("--------------------------------------------------------------------------------");
+        Driver cus1=new Driver();
+        Driver cus2=new Driver();
+        Booking b1=new Booking().setDriver(cus1);
+        Booking b2=new Booking().setDriver(cus2);
+        Booking b3=new Booking().setDriver(cus2);
+        Booking b4=new Booking().setDriver(cus2);
+        Invoice c1=new Invoice().setBooking(b1).setRevenue(112f).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        Invoice c2=new Invoice().setBooking(b2).setRevenue(142f).setCreatedDate(DateTimeFormatConfiguration.String2Time("29,March,1119") );
+        Invoice c3=new Invoice().setBooking(b3).setRevenue(92f).setCreatedDate(DateTimeFormatConfiguration.String2Time("30,March,1119") );
+        Invoice c4=new Invoice().setBooking(b4).setRevenue(67f).setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        //add
+        service.createInvoice(c1);
+        service.createInvoice(c2);
+        service.createInvoice(c3);
+        service.createInvoice(c4);
+        ZonedDateTime start=DateTimeFormatConfiguration.String2Time("27,March,1119 ");
+        ZonedDateTime end=DateTimeFormatConfiguration.String2Time("31,March,1119");
+        //
+        float total= service.getRevenueOfDriver(cus2.getId(),start,end);
+        assertTrue((142+92+67)==total);
+        assertFalse((112+142+92+67)==total);
+        total= service.getRevenueOfDriver(cus1.getId(),start,end);
+        assertTrue(112==total);
+        assertFalse(112+142+92==total);
+
+    }
 
 }

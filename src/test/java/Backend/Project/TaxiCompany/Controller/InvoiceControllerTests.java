@@ -316,4 +316,39 @@ public class InvoiceControllerTests {
                 )
                 .andExpect(status().isOk());
     }
+    @Test
+    public void getTotalRevenue() throws Exception{
+        Mockito.when(service.getTotalRevenue(any(ZonedDateTime.class),any(ZonedDateTime.class))).thenReturn(100f);
+        mvc.perform(MockMvcRequestBuilders
+                .get(rootURI+"revenue")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("start", date1)
+                .param("end", date2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",is(100f),Float.class));
+    }
+    @Test
+    public void getTotalRevenueFromCustomer() throws Exception{
+        Mockito.when(service.getRevenueOfCustomer(any(Long.class),any(ZonedDateTime.class),any(ZonedDateTime.class))).thenReturn(120f);
+        mvc.perform(MockMvcRequestBuilders
+                .get(rootURI+"revenue/customer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(driver1.getId()))
+                .param("start", date1)
+                .param("end", date2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",is(120f),Float.class));
+    }
+    @Test
+    public void getTotalRevenueFromDriver() throws Exception{
+        Mockito.when(service.getRevenueOfDriver(any(Long.class),any(ZonedDateTime.class),any(ZonedDateTime.class))).thenReturn(110f);
+        mvc.perform(MockMvcRequestBuilders
+                        .get(rootURI+"revenue/driver")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("id", String.valueOf(driver1.getId()))
+                        .param("start", date1)
+                        .param("end", date2))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",is(110f),Float.class));
+    }
 }

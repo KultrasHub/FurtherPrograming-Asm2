@@ -94,6 +94,28 @@ public class InvoiceController {
 
         return revenue;
     }
+    @GetMapping("/revenue/customer")
+    public float getTotalRevenueFromCustomer(
+            @RequestParam("id") Long id,
+            @RequestParam("start")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam("end")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
+        float revenue = service.getRevenueOfCustomer(id,start,end);
+
+        return revenue;
+    }
+    @GetMapping("/revenue/driver")
+    public float getTotalRevenueFromDriver(
+            @RequestParam("id") Long id,
+            @RequestParam("start")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime start,
+            @RequestParam("end")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime end) {
+        float revenue = service.getRevenueOfDriver(id,start,end);
+
+        return revenue;
+    }
     @PostMapping
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
         Invoice created = service.createInvoice(invoice);
