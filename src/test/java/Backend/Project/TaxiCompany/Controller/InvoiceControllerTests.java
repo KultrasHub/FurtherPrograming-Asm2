@@ -98,7 +98,22 @@ public class InvoiceControllerTests {
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(size)))
-                .andExpect(jsonPath("$[2].revenue", is(revenue3), Float.class));
+                .andExpect(jsonPath("$[2].revenue", is(revenue3), Float.class))
+                .andExpect(jsonPath("$[1].id", is(invoice2.getId()), Long.class));
+    }
+    @Test
+    public void getInvoicesByDate() throws Exception{
+        List<Invoice> invoices = new ArrayList<>(Arrays.asList(invoice1, invoice2, invoice3));
+        int size = invoices.size();
+        Mockito.when(service.getInvoicesByDate(any(String.class))).thenReturn(invoices);
+        mvc.perform(MockMvcRequestBuilders
+                        .get(rootURI+"date&d=1,March,2020")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(size)))
+                .andExpect(jsonPath("$[2].revenue", is(revenue3), Float.class))
+                .andExpect(jsonPath("$[1].id", is(invoice2.getId()), Long.class));
     }
 
     @Test

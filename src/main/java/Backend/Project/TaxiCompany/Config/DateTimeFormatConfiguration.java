@@ -56,5 +56,33 @@ public class DateTimeFormatConfiguration implements WebMvcConfigurer {
         }
         return ZonedDateTime.now();
     }
-
+    public static ZonedDateTime getStartOfDate(String s)
+    {
+        //add minute to date
+        String start=s+" 00:00:00";
+        SimpleDateFormat formatter=new SimpleDateFormat("dd,MMMM,yyyy HH:mm:ss");
+        try {
+            Date date = (Date) formatter.parse(start);
+            return ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ZonedDateTime.now();
+    }
+    public static ZonedDateTime getEndOfDate(String s)
+    {
+        String end=s+" 23:59:59";
+        SimpleDateFormat formatter=new SimpleDateFormat("dd,MMMM,yyyy HH:mm:ss");
+        try {
+            Date date = (Date) formatter.parse(end);
+            return ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return ZonedDateTime.now();
+    }
 }

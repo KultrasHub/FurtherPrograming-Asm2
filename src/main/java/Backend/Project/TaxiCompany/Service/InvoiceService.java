@@ -1,5 +1,6 @@
 package Backend.Project.TaxiCompany.Service;
 
+import Backend.Project.TaxiCompany.Config.DateTimeFormatConfiguration;
 import Backend.Project.TaxiCompany.Exception.RecordNotFoundException;
 import Backend.Project.TaxiCompany.Model.Invoice;
 import org.hibernate.Session;
@@ -30,7 +31,21 @@ public class InvoiceService {
        }
    }
 
-
+    public List<Invoice> getInvoicesByDate(String date)
+    {
+        ZonedDateTime start= DateTimeFormatConfiguration.getStartOfDate(date);
+        ZonedDateTime end=DateTimeFormatConfiguration.getEndOfDate(date);
+        List result = sessionFactory.getCurrentSession()
+                .createQuery("from Invoice I where I.createdDate between :start and :end")
+                .setParameter("start", start)
+                .setParameter("end",end)
+                .list();
+        if(result!=null && result.size() > 0) {
+            return result;
+        } else {
+            return new ArrayList<Invoice>();
+        }
+    }
 
     public Invoice getInvoiceById(Long id) throws RecordNotFoundException {
         List result = sessionFactory.getCurrentSession()

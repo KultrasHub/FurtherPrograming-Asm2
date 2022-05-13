@@ -53,6 +53,23 @@ public class BookingServiceTest {
         }
 
     }
+    @Test
+    public void getBookingsByDate()
+    {
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Testing subjects should be Isolated by date from the current Objects in database");
+        System.out.println("Testing subjects has created time from 1119-03-27 00:00:00 am -05:00 to 1119-03-27 23:59:59");
+        System.out.println("--------------------------------------------------------------------------------");
+        Booking b1=new Booking().setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        Booking b2=new Booking().setCreatedDate(DateTimeFormatConfiguration.String2Time("29,March,1119") );
+        service.createBooking(b1);
+        service.createBooking(b2);
+        //retrieve
+        List<Booking> list=service.getBookingsByDate("28,March,1119");
+        assertTrue(list.size()==1);//should have 1 element
+        assertEquals(list.get(0),b1);
+        assertNotEquals(list.get(0),b2);
+    }
 
     @Test
     public void getBookingById() {

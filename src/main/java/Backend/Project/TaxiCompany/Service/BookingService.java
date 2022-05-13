@@ -29,7 +29,22 @@ public class BookingService {
             return new ArrayList<Booking>();
         }
     }
-
+    public List<Booking> getBookingsByDate(String date)
+    {
+        ZonedDateTime start=DateTimeFormatConfiguration.getStartOfDate(date);
+        ZonedDateTime end=DateTimeFormatConfiguration.getEndOfDate(date);
+        //get result
+        List<Booking> result = sessionFactory.getCurrentSession()
+                .createQuery("from Booking B where B.createdDate between :start and :end")
+                .setParameter("start", start)
+                .setParameter("end",end)
+                .list();
+        if(result!=null && result.size() > 0) {
+            return result;
+        } else {
+            return new ArrayList<Booking>();
+        }
+    }
     public Booking getBookingById(Long id) throws RecordNotFoundException {
         List result = sessionFactory.getCurrentSession()
                 .createQuery("from Booking B where B.id = :id")

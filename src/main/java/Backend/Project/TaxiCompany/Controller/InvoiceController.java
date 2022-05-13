@@ -34,7 +34,13 @@ public class InvoiceController {
 
         return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
     }
-
+    //@RequestMapping(path = "/invoices&d={date}", method = RequestMethod.GET)
+    @GetMapping("/date&d={date}")
+    public ResponseEntity<List<Invoice>> getInvoicesByDate(@PathVariable("date") String date)
+    {
+        List<Invoice> list = service.getInvoicesByDate(date);
+        return new ResponseEntity<List<Invoice>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Invoice> getInvoiceById(@PathVariable("id") Long id) throws RecordNotFoundException {
         Invoice invoice = service.getInvoiceById(id);

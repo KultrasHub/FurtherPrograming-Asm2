@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.awt.print.Book;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +81,19 @@ public class BookingControllerTest {
                 .andExpect(jsonPath("$[2].car.id",is(car1.getId()),Long.class))
                 .andExpect(jsonPath("$[1].customer.name",is(c2.getName()),String.class));
     }
+    @Test
+    public void getBookingsByDate() throws Exception{
+        List<Booking> list=getAList();
+        Mockito.when(service.getBookingsByDate(any(String.class))).thenReturn(list);
 
+        mvc.perform(MockMvcRequestBuilders
+                .get(rootURI+"/date&d=1,March,2020")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$",hasSize(list.size())))
+                .andExpect(jsonPath("$[0].id",is(b1.getId()),Long.class))
+                .andExpect(jsonPath("$[2].car.id",is(car1.getId()),Long.class))
+                .andExpect(jsonPath("$[1].customer.name",is(c2.getName()),String.class));
+    }
     @Test
     public void getBookingById() throws Exception{
         Mockito.when(service.getBookingById((long)1)).thenReturn(b2);

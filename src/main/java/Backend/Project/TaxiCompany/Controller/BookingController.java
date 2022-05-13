@@ -26,6 +26,11 @@ public class BookingController {
         List<Booking> list= bookingService.getAllBookings();
         return new ResponseEntity<List<Booking>>(list, new HttpHeaders(), HttpStatus.OK);
     }
+    @RequestMapping(path = "/bookings/date&d={date}", method = RequestMethod.GET)
+    public ResponseEntity<List<Booking>> getBookingsByDate(@PathVariable("date") String date){
+        List<Booking> list= bookingService.getBookingsByDate(date);
+        return new ResponseEntity<List<Booking>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
     @RequestMapping(path = "/bookings/{id}", method = RequestMethod.GET)
     public Booking getBookingById(@PathVariable("id") Long id) {
         Booking booking = bookingService.getBookingById(id);

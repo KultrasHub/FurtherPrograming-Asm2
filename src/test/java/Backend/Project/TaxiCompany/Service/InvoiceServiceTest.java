@@ -40,7 +40,28 @@ public class InvoiceServiceTest {
         }
         assertEquals(before,after);
     }
-
+    @Test
+    public void getInvoicesByDate()
+    {
+        System.out.println();
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Testing subjects should be Isolated by date from the current Objects in database");
+        System.out.println("Testing subjects has created time in 28,March,1119");
+        System.out.println("--------------------------------------------------------------------------------");
+        Invoice c1=new Invoice().setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        Invoice c2=new Invoice().setCreatedDate(DateTimeFormatConfiguration.String2Time("26,March,1119") );
+        Invoice c3=new Invoice().setCreatedDate(DateTimeFormatConfiguration.String2Time("28,March,1119") );
+        //add
+        service.createInvoice(c1);
+        service.createInvoice(c2);
+        service.createInvoice(c3);
+        //retreive
+        List<Invoice> list=service.getInvoicesByDate("28,March,1119");
+        assertTrue(list.size()==2);//c1 and c3
+        assertEquals(list.get(0),c1);
+        assertNotEquals(list.get(1),c2);
+        assertEquals(list.get(1),c3);
+    }
     @Test
     public void getInvoiceById() {
         Invoice i1=service.getInvoiceById((long)1);
