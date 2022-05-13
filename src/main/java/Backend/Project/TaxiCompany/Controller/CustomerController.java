@@ -4,6 +4,8 @@ import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,9 @@ public class CustomerController {
 
     // add customer
     @RequestMapping(path = "/customer", method = RequestMethod.POST)
-    public Customer createCustomer(@RequestBody Customer customer){
-        return customerService.createCustomer(customer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+        Customer c= customerService.createCustomer(customer);
+        return new ResponseEntity<Customer>(c,new HttpHeaders(), HttpStatus.OK);
     }
 
     // get all customer
@@ -27,9 +30,9 @@ public class CustomerController {
     }
     //Update Customer
     @RequestMapping(path = "/customer/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateCustomer(@RequestBody Customer cus, @PathVariable long id){
-        customerService.updateCustomerById(id,cus);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer cus, @PathVariable long id){
+        Customer c= customerService.updateCustomerById(id,cus);
+        return new ResponseEntity<Customer>(c,new HttpHeaders(), HttpStatus.OK);
     }
     @RequestMapping(path = "/customer/{id}", method = RequestMethod.GET)
     public Customer getCustomerById(@PathVariable("id") Long id) {

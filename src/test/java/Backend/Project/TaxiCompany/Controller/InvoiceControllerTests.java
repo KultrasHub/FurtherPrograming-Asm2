@@ -59,11 +59,6 @@ public class InvoiceControllerTests {
     float revenue1 = 111, revenue2 = 222, revenue3 = 333, revenue4 = 444;
     String date1 = "2022-04-09T02:17:01.0006475+07:00", date2 = "2022-05-09T02:17:01.0006475+07:00", date3 = "2022-06-09T02:17:01.0006475+07:00";
 
-
-    Invoice invoice1 = new Invoice(id1, ZonedDateTime.parse(date1), revenue1);
-    Invoice invoice2 = new Invoice(id2, ZonedDateTime.parse(date2), revenue2);
-    Invoice invoice3 = new Invoice(id3, ZonedDateTime.parse(date3), revenue3);
-
     Customer customer1 = new Customer(id1);
     Customer customer2 = new Customer(id2);
 
@@ -74,9 +69,13 @@ public class InvoiceControllerTests {
     Car car2 = new Car(id2);
     Car car3 = new Car(id3);
 
-    Booking booking1 = new Booking(id1, ZonedDateTime.now(), customer1, driver1, car1, invoice1);
-    Booking booking2 = new Booking(id2, ZonedDateTime.now(), customer1, driver2, car2, invoice2);
-    Booking booking3 = new Booking(id3, ZonedDateTime.now(), customer2, driver2, car3, invoice3);
+    Booking booking1 = new Booking(id1, ZonedDateTime.now(), customer1, driver1, car1);
+    Booking booking2 = new Booking(id2, ZonedDateTime.now(), customer1, driver2, car2);
+    Booking booking3 = new Booking(id3, ZonedDateTime.now(), customer2, driver2, car3);
+
+    Invoice invoice1 = new Invoice(id1, ZonedDateTime.parse(date1), revenue1).setBooking(booking1);
+    Invoice invoice2 = new Invoice(id2, ZonedDateTime.parse(date2), revenue2).setBooking(booking2);
+    Invoice invoice3 = new Invoice(id3, ZonedDateTime.parse(date3), revenue3).setBooking(booking3);
 
     @BeforeEach
     void setUp() {
@@ -113,7 +112,7 @@ public class InvoiceControllerTests {
         Mockito.when(service.getInvoiceBetween(ZonedDateTime.parse(date2), ZonedDateTime.parse(date3))).thenReturn(invoiceList2);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get(rootURI)
+                .get(rootURI+"period")
                 .param("start", date2)
                 .param("end", date3 )
                 .contentType(MediaType.APPLICATION_JSON);
@@ -158,6 +157,7 @@ public class InvoiceControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].revenue", is(invoice1.getRevenue()), Float.class))
+                .andExpect(jsonPath("$[0].booking.customer.id",is(invoice1.getBooking().getCustomer().getId()),Long.class))
                 .andExpect(jsonPath("$[1].revenue", is(invoice2.getRevenue()), Float.class));
 
         MockHttpServletRequestBuilder request2 = MockMvcRequestBuilders

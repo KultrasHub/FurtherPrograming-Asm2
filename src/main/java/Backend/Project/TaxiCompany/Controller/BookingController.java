@@ -27,7 +27,7 @@ public class BookingController {
         return new ResponseEntity<List<Booking>>(list, new HttpHeaders(), HttpStatus.OK);
     }
     @RequestMapping(path = "/bookings/{id}", method = RequestMethod.GET)
-    public Booking getCustomerById(@PathVariable("id") Long id) {
+    public Booking getBookingById(@PathVariable("id") Long id) {
         Booking booking = bookingService.getBookingById(id);
         return booking;
     }
@@ -55,9 +55,9 @@ public class BookingController {
     }
 
     @RequestMapping(path = "/bookings/{bookId}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateBooking(@RequestBody Booking booking, @PathVariable("bookId") long bookId){
-        bookingService.updateBookingById(bookId,booking);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking, @PathVariable("bookId") long bookId){
+        Booking b= bookingService.updateBookingById(bookId,booking);
+        return new ResponseEntity<Booking>(b, new HttpHeaders(), HttpStatus.OK);
     }
 
     //delete cars

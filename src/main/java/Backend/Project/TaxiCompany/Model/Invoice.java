@@ -14,7 +14,7 @@ public class Invoice {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column
     private ZonedDateTime createdDate;

@@ -29,7 +29,7 @@ public class Booking {
     private Car car;
 
 
-    public Booking(long id, ZonedDateTime createdDate, Customer customer, Driver driver, Car car, Invoice invoice) {
+    public Booking(long id, ZonedDateTime createdDate, Customer customer, Driver driver, Car car) {
         this.id = id;
         this.createdDate = createdDate;
         this.customer = customer;
@@ -42,6 +42,11 @@ public class Booking {
     }
 
     //Builder
+    public Booking setId(long id)
+    {
+        this.id=id;
+        return this;
+    }
     public Booking setCustomer(Customer c)
     {
         customer=c;

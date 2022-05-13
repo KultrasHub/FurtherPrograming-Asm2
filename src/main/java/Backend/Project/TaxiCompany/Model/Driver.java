@@ -8,7 +8,7 @@ public class Driver {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column
     private ZonedDateTime createdDate;
     @Column
@@ -33,12 +33,13 @@ public class Driver {
         this.createdDate=ZonedDateTime.now();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Driver setId(long id) {
         this.id = id;
+        return  this;
     }
 
     public ZonedDateTime getCreatedDate() {

@@ -35,6 +35,11 @@ public class Car {
         return licensePlate;
     }
 
+    public Car setId(long id)
+    {
+        this.id=id;
+        return this;
+    }
     public Car setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
         return this;

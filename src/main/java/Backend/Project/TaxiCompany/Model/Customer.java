@@ -27,6 +27,11 @@ public class Customer {
     }
 
     //builder
+    public  Customer setId(long id)
+    {
+        this.id=id;
+        return this;
+    }
     public Customer setName(String name)
     {
         this.name=name;

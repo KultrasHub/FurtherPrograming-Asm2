@@ -38,7 +38,7 @@ public class DriverController {
 
     @PutMapping
     public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) throws Exception {
-        if(driver == null || driver.getId() == null) {
+        if(driver == null) {
             throw new InvalidRequestException("Must not be null!");
         }
         Driver updated = service.updateDriverById(driver.getId(), driver);

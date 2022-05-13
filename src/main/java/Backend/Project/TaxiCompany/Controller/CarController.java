@@ -4,6 +4,8 @@ import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +38,9 @@ public class CarController {
 
 
     @RequestMapping(path = "/cars/{carId}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateCar(@RequestBody Car car, @PathVariable long carId){
-        carService.updateCarById(carId,car);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Car> updateCar(@RequestBody Car car, @PathVariable long carId){
+        Car c=carService.updateCarById(carId,car);
+        return new  ResponseEntity<Car>(c, new HttpHeaders(), HttpStatus.OK);
     }
 
     //delete cars

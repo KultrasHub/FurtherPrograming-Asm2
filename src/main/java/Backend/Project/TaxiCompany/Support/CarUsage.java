@@ -3,15 +3,14 @@ package Backend.Project.TaxiCompany.Support;
 import Backend.Project.TaxiCompany.Model.Car;
 
 public class CarUsage {
-    public long carId;
+    public long carId=-1;
     public String license;
     public int usageTime;
 
     public boolean addUsageTime(Car car)
     {
-
         //check if the component is null
-        if(carId==0)
+        if(carId<0)
         {
             //no thing has been added
             this.carId=car.getId();
