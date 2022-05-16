@@ -1,5 +1,6 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Exception.InvalidRequestException;
 import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CustomerService;
@@ -18,7 +19,10 @@ public class CustomerController {
 
     // add customer
     @RequestMapping(path = "/customer", method = RequestMethod.POST)
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) throws Exception{
+        if(customer == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Customer c= customerService.createCustomer(customer);
         return new ResponseEntity<Customer>(c,new HttpHeaders(), HttpStatus.OK);
     }
@@ -30,7 +34,10 @@ public class CustomerController {
     }
     //Update Customer
     @RequestMapping(path = "/customer/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer cus, @PathVariable long id){
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer cus, @PathVariable long id) throws Exception{
+        if(cus == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Customer c= customerService.updateCustomerById(id,cus);
         return new ResponseEntity<Customer>(c,new HttpHeaders(), HttpStatus.OK);
     }

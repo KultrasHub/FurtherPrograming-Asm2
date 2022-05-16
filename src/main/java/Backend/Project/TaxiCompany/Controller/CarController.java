@@ -1,5 +1,6 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Exception.InvalidRequestException;
 import Backend.Project.TaxiCompany.Model.Car;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.CarService;
@@ -31,14 +32,20 @@ public class CarController {
     }
     //admin can create a new car
     @RequestMapping(path = "/cars", method = RequestMethod.POST)
-    public ResponseEntity<Car> createdCar(@RequestBody Car car) throws URISyntaxException {
+    public ResponseEntity<Car> createdCar(@RequestBody Car car) throws Exception {
+        if(car == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Car newCar =  carService.createCar(car);
         return ResponseEntity.created(new URI("/cars/" + newCar.getId())).body(car);
     }
 
 
     @RequestMapping(path = "/cars/{carId}", method = RequestMethod.PUT)
-    public ResponseEntity<Car> updateCar(@RequestBody Car car, @PathVariable long carId){
+    public ResponseEntity<Car> updateCar(@RequestBody Car car, @PathVariable long carId) throws Exception{
+        if(car == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Car c=carService.updateCarById(carId,car);
         return new  ResponseEntity<Car>(c, new HttpHeaders(), HttpStatus.OK);
     }

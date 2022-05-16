@@ -1,5 +1,6 @@
 package Backend.Project.TaxiCompany.Controller;
 
+import Backend.Project.TaxiCompany.Exception.InvalidRequestException;
 import Backend.Project.TaxiCompany.Model.Booking;
 import Backend.Project.TaxiCompany.Model.Customer;
 import Backend.Project.TaxiCompany.Service.BookingService;
@@ -37,7 +38,10 @@ public class BookingController {
         return booking;
     }
     @RequestMapping(path = "/bookings", method = RequestMethod.POST)
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) throws URISyntaxException {
+    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) throws Exception {
+        if(booking == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Booking newBooking =  bookingService.createBooking(booking);
         return ResponseEntity.created(new URI("/bookings/" + newBooking.getId())).body(booking);
     }
@@ -60,7 +64,10 @@ public class BookingController {
     }
 
     @RequestMapping(path = "/bookings/{bookId}", method = RequestMethod.PUT)
-    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking, @PathVariable("bookId") long bookId){
+    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking, @PathVariable("bookId") long bookId) throws Exception{
+        if(booking == null) {
+            throw new InvalidRequestException("Must not be null!");
+        }
         Booking b= bookingService.updateBookingById(bookId,booking);
         return new ResponseEntity<Booking>(b, new HttpHeaders(), HttpStatus.OK);
     }

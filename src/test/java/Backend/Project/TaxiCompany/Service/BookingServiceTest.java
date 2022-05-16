@@ -114,6 +114,7 @@ public class BookingServiceTest {
         {
             System.out.println("For this testing to work, please add any Booking to the database");
             System.out.println("Otherwise it will throw an exception for not found the id it needed");
+            return;
         }
         Customer cus=new Customer().setAddress("Twin Tower").setName("Frey");
         Car car=new Car().setLicensePlate("123-North");
