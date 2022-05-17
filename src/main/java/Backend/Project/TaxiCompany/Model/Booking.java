@@ -28,7 +28,17 @@ public class Booking {
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
 
+    @Column
+    private String startingLocation;
 
+    @Column
+    private String endLocation;
+    @Column
+    private ZonedDateTime pickUpDateTime;
+    @Column
+    private ZonedDateTime dropOffDateTime;
+    @Column
+    private double distanceTrip;
     public Booking(long id, ZonedDateTime createdDate, Customer customer, Driver driver, Car car) {
         this.id = id;
         this.createdDate = createdDate;
@@ -67,6 +77,32 @@ public class Booking {
         createdDate=dateTime;
         return this;
     }
+
+    public Booking setStartingLocation(String startingLocation) {
+        this.startingLocation = startingLocation;
+        return this;
+    }
+
+    public Booking setEndLocation(String endLocation) {
+        this.endLocation = endLocation;
+        return this;
+    }
+
+    public Booking setPickUpDateTime(ZonedDateTime pickUpDateTime) {
+        this.pickUpDateTime = pickUpDateTime;
+        return this;
+    }
+
+    public Booking setDropOffDateTime(ZonedDateTime dropOffDateTime) {
+        this.dropOffDateTime = dropOffDateTime;
+        return this;
+    }
+
+    public Booking setDistanceTrip(double distanceTrip) {
+        this.distanceTrip = distanceTrip;
+        return this;
+    }
+
     //getter
     public long getId() {
         return id;
@@ -88,4 +124,23 @@ public class Booking {
         return car;
     }
 
+    public String getStartingLocation() {
+        return startingLocation;
+    }
+
+    public String getEndLocation() {
+        return endLocation;
+    }
+
+    public ZonedDateTime getPickUpDateTime() {
+        return pickUpDateTime;
+    }
+
+    public ZonedDateTime getDropOffDateTime() {
+        return dropOffDateTime;
+    }
+
+    public double getDistanceTrip() {
+        return distanceTrip;
+    }
 }

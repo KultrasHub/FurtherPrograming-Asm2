@@ -56,7 +56,12 @@ public class CarService {
             Car car = (Car) result.get(0);
             session.evict(car);
             car.setLicensePlate(carEntity.getLicensePlate())
-                    .setCreatedDate(carEntity.getCreatedDate());
+                    .setCreatedDate(carEntity.getCreatedDate())
+                    .setColor(carEntity.getColor())
+                    .setConvertible(carEntity.getConvertible())
+                    .setMake(carEntity.getMake())
+                    .setModel(carEntity.getModel())
+                    .setRating(carEntity.getRating());
             session.update(car);
             return car;
         } else {

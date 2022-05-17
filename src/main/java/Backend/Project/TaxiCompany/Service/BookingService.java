@@ -77,7 +77,13 @@ public class BookingService {
             booking.setCustomer(bookingEntity.getCustomer())
                     .setCar(bookingEntity.getCar())
                     .setDriver(bookingEntity.getDriver())
-                    .setCreatedDate(bookingEntity.getCreatedDate());
+                    .setCreatedDate(bookingEntity.getCreatedDate())
+                    .setStartingLocation(bookingEntity.getStartingLocation())
+                    .setDistanceTrip(bookingEntity.getDistanceTrip())
+                    .setDropOffDateTime(bookingEntity.getDropOffDateTime())
+                    .setEndLocation(bookingEntity.getEndLocation())
+                    .setPickUpDateTime(bookingEntity.getPickUpDateTime());
+
             session.update(booking);
             return booking;
         } else {

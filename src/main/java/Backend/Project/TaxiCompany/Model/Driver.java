@@ -13,6 +13,39 @@ public class Driver {
     private ZonedDateTime createdDate;
     @Column
     private String name;
+    @Column
+    private String licenseNumber;
+    @Column
+    private String phoneNumber;
+    @Column
+    private float rating;
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public Driver setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+        return this;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+
+    }
+
+    public Driver setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public Driver setRating(float rating) {
+        this.rating = rating;
+        return this;
+    }
 
     public Driver(Long id) {
         this.id = id;

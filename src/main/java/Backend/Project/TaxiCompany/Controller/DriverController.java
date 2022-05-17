@@ -36,12 +36,12 @@ public class DriverController {
         return new ResponseEntity<Driver>(created, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) throws Exception {
+    @PutMapping("/{id}")
+    public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver,@PathVariable("id") Long id) throws Exception {
         if(driver == null) {
             throw new InvalidRequestException("Must not be null!");
         }
-        Driver updated = service.updateDriverById(driver.getId(), driver);
+        Driver updated = service.updateDriverById(id, driver);
         return new ResponseEntity<Driver>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 

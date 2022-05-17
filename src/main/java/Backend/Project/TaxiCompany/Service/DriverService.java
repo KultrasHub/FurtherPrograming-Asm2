@@ -58,7 +58,10 @@ public class DriverService {
             Driver driver = (Driver) result.get(0);
             session.evict(driver);
             driver.setName(driverEntity.getName())
-                    .setCreatedDate(driverEntity.getCreatedDate());
+                    .setCreatedDate(driverEntity.getCreatedDate())
+                    .setRating(driverEntity.getRating())
+                    .setLicenseNumber(driverEntity.getLicenseNumber())
+                    .setPhoneNumber(driverEntity.getPhoneNumber());
             session.update(driver);
             return driver;
         } else {

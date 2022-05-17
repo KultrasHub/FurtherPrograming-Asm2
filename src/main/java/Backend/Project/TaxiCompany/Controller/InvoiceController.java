@@ -123,12 +123,12 @@ public class InvoiceController {
         return response;
     }
 
-    @PutMapping
-    public ResponseEntity<Invoice> updateInvoiceById(@RequestBody Invoice invoice) throws Exception {
+    @PutMapping("/{id}")
+    public ResponseEntity<Invoice> updateInvoiceById(@RequestBody Invoice invoice,@PathVariable("id") Long id) throws Exception {
         if(invoice == null || invoice.getId() == null) {
             throw new InvalidRequestException("Must not be null!");
         }
-        Invoice updated = service.updateInvoice(invoice.getId(), invoice);
+        Invoice updated = service.updateInvoice(id, invoice);
 
         return new ResponseEntity<Invoice>(updated, new HttpHeaders(), HttpStatus.OK);
     }
